@@ -42,8 +42,7 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts allowEmptyArchive: true,
-                    artifacts: "target/*.jar", fingerprint: true
+            archiveArtifacts allowEmptyArchive: true, artifacts: "backend/target/*.jar", fingerprint: true
         }
     }
 }
