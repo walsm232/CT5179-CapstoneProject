@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_REPOSITORY_NAME = "ct5179-capstone-project"
+        IMAGE_NAME = "spring-boot-backend"
+        IMAGE_TAG = "latest"
+    }
+
+    stages {
+        stage ("Build") {
+            steps {
+                timeout(time: 10, unit: "MINUTES") {
+                    dir('backend') {
+                        sh "mvn clean"
+                    }
+                }
+            }
+        }
+        stage ("Package") {
+            steps {
+                timeout(time: 10, unit: "MINUTES") {
+                    dir('backend') {
+                        sh "mvn package"
+                    }
+                }
+            }
+        }
+        stage ("Build Docker Image") {
+            steps {
+                timeout(time: 5, unit: "MINUTES") {
+                    dir('backend') {
+                        sh '''
+                        DOCKER_BUILDKIT=1 docker build \
+                            -t ${IMAGE_NAME}:${IMAGE_TAG} \
+                            -f delivery/Dockerfile .
+                    '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts allowEmptyArchive: true,
+                    artifacts: "target/*.jar", fingerprint: true
+        }
+    }
+}
