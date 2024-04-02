@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        MYSQL_ROOT_PASSWORD = credentials('mysql-root-password')
+    }
+
+    stages {
+        stage('Setup MySQL Container') {
+            steps {
+                script {
+                    // Check if MySQL container already exists
+                    def existingContainer = sh(script: 'docker ps -aqf "name=mysql-database"', returnStdout: true).trim()
+
+                    // If container exists, stop and remove it
+                    if (existingContainer) {
+                        sh "docker stop mysql-database"
+                        sh "docker rm mysql-database"
+                    }
+
+                    // Start MySQL container
+                    sh '''
+                        docker run -d --name mysql-database -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} mysql:latest
+                    '''
+
+                    // Wait for MySQL container to be ready
+                    waitForMySQLContainer()
+                }
+            }
+        }
+    }
+}
+
+def waitForMySQLContainer() {
+    // Wait for MySQL container to be ready
+    def ready = false
+    def retries = 0
+    while (!ready && retries < 30) {
+        def result = sh(script: 'docker exec mysql-database mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW DATABASES"', returnStatus: true)
+        if (result == 0) {
+            ready = true
+        } else {
+            retries++
+            sleep(10)
+        }
+    }
+    if (!ready) {
+        error "MySQL container did not become ready within the specified time."
+    }
+}
