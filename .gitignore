@@ -1,0 +1,6 @@
+# Log files
+*.log
+
+# IDE-specific files (e.g., IntelliJ IDEA)
+.idea/
+*.iml
