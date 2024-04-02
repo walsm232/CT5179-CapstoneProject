@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.capstone</groupId>
 	<artifactId>studentplacementplatform</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>studentplacementplatform</name>
 	<description>Spring Boot Backend for the CT5179 Capstone Project</description>
 	<properties>
