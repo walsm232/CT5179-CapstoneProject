@@ -5,6 +5,8 @@ pipeline {
         IMAGE_REPOSITORY_NAME = "ct5179-capstone-project"
         IMAGE_NAME = "spring-boot-backend"
         IMAGE_TAG = "latest"
+
+        DB_ROOT_PASSWORD = credentials('mysql-root-password')
     }
 
     stages {

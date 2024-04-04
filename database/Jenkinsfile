@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        MYSQL_ROOT_PASSWORD = credentials('mysql-root-password')
+        DB_ROOT_PASSWORD = credentials('mysql-root-password')
     }
 
     stages {
@@ -20,7 +20,7 @@ pipeline {
 
                     // Start MySQL container
                     sh '''
-                        docker run -d --name mysql-database -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} mysql:latest
+                        docker run -d --name mysql-database -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} mysql:latest
                     '''
 
                     // Wait for MySQL container to be ready
@@ -36,7 +36,7 @@ def waitForMySQLContainer() {
     def ready = false
     def retries = 0
     while (!ready && retries < 30) {
-        def result = sh(script: 'docker exec mysql-database mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SHOW DATABASES"', returnStatus: true)
+        def result = sh(script: 'docker exec mysql-database mysql -u root -p${DB_ROOT_PASSWORD} -e "SHOW DATABASES"', returnStatus: true)
         if (result == 0) {
             ready = true
         } else {
