@@ -2,8 +2,10 @@
 *.log
 
 # IDE-specific files (e.g., IntelliJ IDEA)
-backend/.idea/
+.idea/
 *.iml
+
+.DS_Store
 
 # Maven-specific files
 backend/lib/
