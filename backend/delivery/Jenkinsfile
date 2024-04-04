@@ -67,6 +67,7 @@ pipeline {
                         docker run -d \
                             --name ${IMAGE_NAME} \
                             -p 8089:8080 \
+                            --build-arg DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} \
                             ${IMAGE_NAME}:${IMAGE_TAG}
                         '''
                     }
