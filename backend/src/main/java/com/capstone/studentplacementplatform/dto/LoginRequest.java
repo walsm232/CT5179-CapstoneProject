@@ -1,7 +1,6 @@
 package com.capstone.studentplacementplatform.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 public class LoginRequest {
 
