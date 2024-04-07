@@ -1,53 +1,33 @@
-package com.capstone.studentplacementplatform.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+package com.capstone.studentplacementplatform.dto;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "education_history")
-public class EducationHistory {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "education_id")
-    private Long educationId;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @Column(name = "institution_name")
+public class EducationHistoryRequest {
+    private Long userId;
     private String institutionName;
-
-    @Column(name = "degree")
     private String degree;
-
-    @Column(name = "major")
     private String major;
-
-    @Column(name = "start_date")
     private Date startDate;
-
-    @Column(name = "end_date")
     private Date endDate;
 
-    public Long getEducationId() {
-        return educationId;
+    // Constructors
+    public EducationHistoryRequest() {}
+
+    public EducationHistoryRequest(Long userId, String institutionName, String degree, String major, Date startDate, Date endDate) {
+        this.userId = userId;
+        this.institutionName = institutionName;
+        this.degree = degree;
+        this.major = major;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public void setEducationId(Long educationId) {
-        this.educationId = educationId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getInstitutionName() {
@@ -90,3 +70,4 @@ public class EducationHistory {
         this.endDate = endDate;
     }
 }
+

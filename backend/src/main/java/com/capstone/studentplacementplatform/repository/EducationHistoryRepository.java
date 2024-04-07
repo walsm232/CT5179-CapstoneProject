@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface EducationHistoryRepository extends JpaRepository<EducationHistory, Long> {
-
     List<EducationHistory> findByUserId(Long userId);
 }
