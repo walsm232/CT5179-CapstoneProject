@@ -16,6 +16,7 @@ import com.capstone.studentplacementplatform.dto.RegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @Validated
@@ -27,7 +28,7 @@ public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         // Check if username or email already exists
@@ -55,7 +56,7 @@ public class UserController {
             String hashedPassword = user.getPassword(); // Retrieve hashed password from the user object
             if (passwordEncoder.matches(loginRequest.getPassword(), hashedPassword)) {
                 // Authentication successful
-                return ResponseEntity.ok("Login successful");
+                return ResponseEntity.ok(Map.of("userId", user.getId(), "message", "Login successful"));
             }
         }
 
