@@ -1,5 +1,6 @@
 package com.capstone.studentplacementplatform.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,11 +11,13 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
     @Column(name = "skill_name")
     private String skillName;
-
-    @Column(name = "user_id")
-    private Long userId;
 
     public Long getId() {
         return id;
@@ -24,19 +27,19 @@ public class Skill {
         this.id = id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getSkillName() {
         return skillName;
     }
 
     public void setSkillName(String skillName) {
         this.skillName = skillName;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

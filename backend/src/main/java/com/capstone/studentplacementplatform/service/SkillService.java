@@ -1,7 +1,9 @@
 package com.capstone.studentplacementplatform.service;
 
 import com.capstone.studentplacementplatform.model.Skill;
+import com.capstone.studentplacementplatform.model.User;
 import com.capstone.studentplacementplatform.repository.SkillRepository;
+import com.capstone.studentplacementplatform.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,17 @@ public class SkillService {
     @Autowired
     private SkillRepository skillRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<Skill> findByUserId(Long userId) {
         return skillRepository.findByUserId(userId);
     }
 
     public Skill addSkillForUser(Long userId, Skill skill) {
-        skill.setUserId(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        skill.setUser(user);
         return skillRepository.save(skill);
     }
 

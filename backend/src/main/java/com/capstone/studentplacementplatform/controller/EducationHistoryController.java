@@ -1,12 +1,14 @@
 package com.capstone.studentplacementplatform.controller;
 
+import com.capstone.studentplacementplatform.dto.EducationHistoryRequest;
 import com.capstone.studentplacementplatform.model.EducationHistory;
+import com.capstone.studentplacementplatform.model.User;
 import com.capstone.studentplacementplatform.service.EducationHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -31,10 +33,11 @@ public class EducationHistoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addEducationHistory(@RequestBody EducationHistory educationHistory) {
-        EducationHistory savedEducationHistory = educationHistoryService.save(educationHistory);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEducationHistory);
+    public ResponseEntity<?> addEducationHistory(@RequestBody EducationHistoryRequest request) {
+        EducationHistory educationHistory = educationHistoryService.saveEducationHistory(request.getUserId(), request.getInstitutionName(), request.getDegree(), request.getMajor(), request.getStartDate(), request.getEndDate());
+        return ResponseEntity.status(HttpStatus.CREATED).body(educationHistory);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEducationHistory(@PathVariable Long id, @RequestBody EducationHistory educationHistoryDetails) {
