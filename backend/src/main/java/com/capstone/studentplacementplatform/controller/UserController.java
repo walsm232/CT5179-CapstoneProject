@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.capstone.studentplacementplatform.service.UserService;
 import com.capstone.studentplacementplatform.dto.RegistrationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +59,17 @@ public class UserController {
 
         // Authentication failed
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
+        Optional<User> userOptional = userService.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setPassword("REDACTED");
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
