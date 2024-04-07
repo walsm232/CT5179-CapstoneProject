@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ValidRoleValidator implements ConstraintValidator<ValidRole, String> {
 
-    private static final Set<String> ALLOWED_ROLES = Set.of("STUDENT", "PLACEMENT_OFFICER", "RECRUITER");
+    private static final Set<String> ALLOWED_ROLES = Set.of("STUDENT", "PLACEMENT OFFICER", "RECRUITER");
 
     @Override
     public void initialize(ValidRole constraintAnnotation) {}

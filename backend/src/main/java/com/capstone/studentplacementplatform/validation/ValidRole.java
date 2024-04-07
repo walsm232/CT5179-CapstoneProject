@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = ValidRoleValidator.class)
 @Documented
 public @interface ValidRole {
-    String message() default "Role MUST be one of 'Student', 'Placement Officer', or 'Recruiter'";
+    String message() default "Role MUST be one of 'STUDENT', 'PLACEMENT OFFICER', or 'RECRUITER'";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
