@@ -30,11 +30,6 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public Optional<String> getPasswordByUsername(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        return userOptional.map(User::getPassword);
-    }
-
     public void registerUser(RegistrationRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
@@ -45,5 +40,9 @@ public class UserService {
         user.setRole(request.getRole());
 
         userRepository.save(user);
+    }
+
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 }
