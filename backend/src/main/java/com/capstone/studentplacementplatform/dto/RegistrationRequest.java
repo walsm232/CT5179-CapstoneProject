@@ -30,6 +30,17 @@ public class RegistrationRequest {
     @NotBlank(message = "Role is required")
     private String role;
 
+    public RegistrationRequest() {
+    }
+
+    public RegistrationRequest(String firstName, String lastName, String username, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
