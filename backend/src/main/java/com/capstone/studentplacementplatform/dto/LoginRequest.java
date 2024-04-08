@@ -10,6 +10,14 @@ public class LoginRequest {
     @NotBlank(message = "Password cannot be blank")
     private String password;
 
+    public LoginRequest() {
+    }
+
+    public LoginRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
