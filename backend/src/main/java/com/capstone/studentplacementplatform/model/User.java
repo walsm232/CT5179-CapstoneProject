@@ -21,11 +21,11 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<EducationHistory> educationHistoryList;
+    private List<UserEducationHistory> educationHistoryList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Skill> skills;
+    private List<UserSkills> skills;
 
     public User() {
     }

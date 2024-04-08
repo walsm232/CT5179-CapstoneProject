@@ -4,27 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "user_skills")
+public class UserSkills {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "skill_id")
+    private Long skillId;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @Column(name = "skill_name")
     private String skillName;
 
-    public Long getId() {
-        return id;
+    public Long getSkillId() {
+        return skillId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSkillId(Long skillId) {
+        this.skillId = skillId;
     }
 
     public User getUser() {
