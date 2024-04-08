@@ -1,34 +1,49 @@
 package com.capstone.studentplacementplatform.controller;
 
+import com.capstone.studentplacementplatform.dto.EducationHistoryRequest;
 import com.capstone.studentplacementplatform.dto.LoginRequest;
+import com.capstone.studentplacementplatform.dto.RegistrationRequest;
+import com.capstone.studentplacementplatform.model.UserEducationHistory;
+import com.capstone.studentplacementplatform.model.UserSkills;
 import com.capstone.studentplacementplatform.model.User;
-import jakarta.validation.Valid;
+import com.capstone.studentplacementplatform.service.UserEducationHistoryService;
+import com.capstone.studentplacementplatform.service.UserSkillService;
+import com.capstone.studentplacementplatform.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.capstone.studentplacementplatform.service.UserService;
-import com.capstone.studentplacementplatform.dto.RegistrationRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @Validated
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserSkillService.class);
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserEducationHistoryService educationHistoryService;
+
+    @Autowired
+    private UserSkillService skillService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-        // Check if username or email already exists
         if (userService.existsByUsername(registrationRequest.getUsername())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
         }
@@ -37,27 +52,22 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
 
-        // Create user
         userService.registerUser(registrationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("User has been registered successfully");
     }
 
     @PostMapping("/auth")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        // Retrieve user from the database by username
         Optional<User> userOptional = userService.findByUsername(loginRequest.getUsername());
 
-        // Check if user exists and password matches
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            String hashedPassword = user.getPassword(); // Retrieve hashed password from the user object
+            String hashedPassword = user.getPassword();
             if (passwordEncoder.matches(loginRequest.getPassword(), hashedPassword)) {
-                // Authentication successful
                 return ResponseEntity.ok(Map.of("userId", user.getId(), "message", "Login successful"));
             }
         }
 
-        // Authentication failed
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
@@ -71,5 +81,86 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{userId}/skills/{id}")
+    public ResponseEntity<?> getSkillById(@PathVariable Long userId, @PathVariable Long id) {
+        Optional<UserSkills> skillOptional = skillService.findById(id);
+        return skillOptional.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{userId}/skills")
+    public ResponseEntity<?> getSkillsByUserId(@PathVariable Long userId) {
+        List<UserSkills> skills = skillService.findByUserId(userId);
+        return ResponseEntity.ok(skills);
+    }
+
+    @PostMapping("/{userId}/skills")
+    public ResponseEntity<?> addSkillForUser(@PathVariable Long userId, @RequestBody UserSkills skill) {
+        UserSkills savedSkill = skillService.addSkillForUser(userId, skill);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedSkill);
+    }
+
+    @PutMapping("/{userId}/skills/{id}")
+    public ResponseEntity<?> updateSkill(@PathVariable Long userId, @PathVariable Long id, @RequestBody UserSkills skillDetails) {
+        Optional<UserSkills> skillOptional = skillService.findById(id);
+        if (skillOptional.isPresent()) {
+            UserSkills skill = skillOptional.get();
+            skill.setSkillName(skillDetails.getSkillName());
+            UserSkills updatedSkill = skillService.save(skill);
+            return ResponseEntity.ok(updatedSkill);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{userId}/skills/{id}")
+    public ResponseEntity<?> deleteSkill(@PathVariable Long id) {
+        skillService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/{userId}/education-history")
+    public ResponseEntity<?> getEducationHistoryByUserId(@PathVariable Long userId) {
+        List<UserEducationHistory> educationHistoryList = educationHistoryService.findByUserId(userId);
+        return ResponseEntity.ok(educationHistoryList);
+    }
+
+    @GetMapping("/{userId}/education-history/{id}")
+    public ResponseEntity<?> getEducationHistoryById(@PathVariable Long userId, @PathVariable Long id) {
+        Optional<UserEducationHistory> educationHistoryOptional = educationHistoryService.findById(id);
+        return educationHistoryOptional.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{userId}/education-history")
+    public ResponseEntity<?> addEducationHistory(@RequestBody EducationHistoryRequest request) {
+        UserEducationHistory educationHistory = educationHistoryService.saveEducationHistory(request.getUserId(), request.getInstitutionName(), request.getDegree(), request.getMajor(), request.getStartDate(), request.getEndDate());
+        return ResponseEntity.status(HttpStatus.CREATED).body(educationHistory);
+    }
+
+    @PutMapping("/{userId}/education-history/{id}")
+    public ResponseEntity<?> updateEducationHistory(@PathVariable Long id, @RequestBody UserEducationHistory educationHistoryDetails) {
+        Optional<UserEducationHistory> educationHistoryOptional = educationHistoryService.findById(id);
+        if (educationHistoryOptional.isPresent()) {
+            UserEducationHistory educationHistory = educationHistoryOptional.get();
+            educationHistory.setInstitutionName(educationHistoryDetails.getInstitutionName());
+            educationHistory.setDegree(educationHistoryDetails.getDegree());
+            educationHistory.setMajor(educationHistoryDetails.getMajor());
+            educationHistory.setStartDate(educationHistoryDetails.getStartDate());
+            educationHistory.setEndDate(educationHistoryDetails.getEndDate());
+            UserEducationHistory updatedEducationHistory = educationHistoryService.save(educationHistory);
+            return ResponseEntity.ok(updatedEducationHistory);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{userId}/education-history/{id}")
+    public ResponseEntity<?> deleteEducationHistory(@PathVariable Long id) {
+        educationHistoryService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

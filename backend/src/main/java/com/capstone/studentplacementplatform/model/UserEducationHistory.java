@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "education_history")
-public class EducationHistory {
+@Table(name = "user_education_history")
+public class UserEducationHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
