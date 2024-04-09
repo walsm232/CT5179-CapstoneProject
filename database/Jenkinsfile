@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DB_ROOT_PASSWORD = credentials('mysql-root-password')
+        DB_ROOT_PASSWORD = credentials("mysql-root-password")
     }
 
     stages {
-        stage('Setup MySQL Container') {
+        stage("Start MySQL Container") {
             steps {
                 script {
                     // Check if MySQL container already exists
-                    def existingContainer = sh(script: 'docker ps -aqf "name=mysql-database"', returnStdout: true).trim()
+                    def existingContainer = sh(script: "docker ps -aqf 'name=mysql-database'", returnStdout: true).trim()
 
                     // If container exists, stop and remove it
                     if (existingContainer) {
@@ -19,12 +19,22 @@ pipeline {
                     }
 
                     // Start MySQL container
-                    sh '''
+                    sh """
                         docker run -d --name mysql-database -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} mysql:latest
-                    '''
+                    """
 
                     // Wait for MySQL container to be ready
                     waitForMySQLContainer()
+                }
+            }
+        }
+
+        stage('Create Database') {
+            steps {
+                script {
+                    sh """
+                        docker exec mysql-database mysql -u root -p${DB_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS student_placement_platform;"
+                    """
                 }
             }
         }
@@ -36,7 +46,7 @@ def waitForMySQLContainer() {
     def ready = false
     def retries = 0
     while (!ready && retries < 30) {
-        def result = sh(script: 'docker exec mysql-database mysql -u root -p${DB_ROOT_PASSWORD} -e "SHOW DATABASES"', returnStatus: true)
+        def result = sh(script: "docker exec mysql-database mysql -u root -p${DB_ROOT_PASSWORD} -e 'SHOW DATABASES'", returnStatus: true)
         if (result == 0) {
             ready = true
         } else {
