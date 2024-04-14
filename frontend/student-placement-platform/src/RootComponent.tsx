@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
 import NotFoundPage from './pages/NotFoundPage'
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
@@ -10,6 +11,7 @@ const RootComponent: React.FC = () => {
         <Router>
             <Routes>
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="login" element={<LoginPage />} />   
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage />} />
             </Routes>
         </Router>
