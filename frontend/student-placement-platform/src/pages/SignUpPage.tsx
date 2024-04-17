@@ -1,18 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+
 import axios from 'axios';
 
 
-export const LogInPage = () => {
+
+export const SignUpPage = () => {
     
 
     const [errorMessage, setErrorMessage] = useState('');
 
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const [confirmpasswordValue, setconfirmPasswordValue] = useState('');
 
-    const navigate= useNavigate();
+   const navigate= useNavigate();
 
     const onLogInClicked = async () => {
         const response = await axios.post('/api/login', {
@@ -36,15 +39,18 @@ export const LogInPage = () => {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 placeholder="password" />
+                 <input
+                type="password"
+                value={confirmpasswordValue}
+                onChange={e => setconfirmPasswordValue(e.target.value)}
+                placeholder="password" />
             <hr />
             <button
-                disabled={!emailValue || !passwordValue}
-                onClick={onLogInClicked}>Log In</button>
-            <button
-                onClick={() =>navigate('/forgot')}>Forgot your Password</button>
-                <button
-                onClick={() =>navigate('/signup')}>Dont have an account? Sign Up</button>
+                disabled={!emailValue || !passwordValue || confirmpasswordValue !=passwordValue}
+                onClick={onLogInClicked}>Sign Up</button>
+               
+            
         </div>
     );
 }
-export default LogInPage;
+export default SignUpPage;
