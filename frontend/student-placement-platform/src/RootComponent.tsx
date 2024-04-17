@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import NotFoundPage from './pages/NotFoundPage'
 import { ROUTES } from './resources/routes-constants'
+import SignUpPage from './pages/SignUpPage'
 import './styles/main.sass'
 
 const RootComponent: React.FC = () => {
@@ -11,7 +12,8 @@ const RootComponent: React.FC = () => {
         <Router>
             <Routes>
                 <Route path="*" element={<NotFoundPage />} />
-                <Route path="login" element={<LoginPage />} />   
+                <Route path="login" element={<LoginPage />} />  
+                <Route path="Signup" element={<SignUpPage />}/> 
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<HomePage />} />
             </Routes>
         </Router>
