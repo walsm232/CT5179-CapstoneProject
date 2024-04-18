@@ -17,7 +17,11 @@ if ! command_exists mvn; then
     exit 1
 fi
 
-# Continue with the script if dependencies are installed
+# Check if DB_ROOT_PASSWORD is set
+if [ -z "$DB_ROOT_PASSWORD" ]; then
+    echo "Error: DB_ROOT_PASSWORD environment variable is not set. Set DB_ROOT_PASSWORD and try again."
+    exit 1
+fi
 
 export DB_HOST="localhost"
 export DB_PORT="3306"
@@ -32,19 +36,13 @@ if ! docker network inspect "student-placement-platform" &>/dev/null; then
     docker network create "student-placement-platform"
 fi
 
-# Check if DB_ROOT_PASSWORD is set
-if [ -z "$DB_ROOT_PASSWORD" ]; then
-    echo "Error: DB_ROOT_PASSWORD environment variable is not set. Set DB_ROOT_PASSWORD and try again."
-    exit 1
-fi
-
 # Run MySQL container
 docker run -d --name mysql-database --network student-placement-platform -p 3306:3306 -e MYSQL_ROOT_PASSWORD="${DB_ROOT_PASSWORD}" mysql:latest
 
 # Function to check if MySQL is ready
 wait_for_mysql() {
     until docker exec mysql-database mysql -uroot -p"${DB_ROOT_PASSWORD}" -e "status"; do
-        >&2 echo "MySQL is unavailable - sleeping"
+        >&2 echo "MySQL is unavailable - waiting"
         sleep 5
     done
     >&2 echo "MySQL is up and running!"
@@ -78,3 +76,27 @@ docker build --build-arg DB_ROOT_PASSWORD="${DB_ROOT_PASSWORD}" -t spring-boot-b
 
 # Run backend container
 docker run -d --name spring-boot-backend --network student-placement-platform -p 8089:8080 spring-boot-backend:latest
+
+
+echo " "
+
+
+echo "=================================="
+echo "Frontend Stage STARTED"
+echo "=================================="
+
+cd ../frontend/ || exit
+
+# Build frontend Docker image
+docker build -t react-frontend-app:latest -f delivery/Dockerfile .
+
+# Run frontend container
+docker run -d --name react-frontend-app --network student-placement-platform -p 8088:80 react-frontend-app:latest
+
+echo "=================================="
+echo "Frontend Stage COMPLETE"
+echo "=================================="
+
+echo " "
+
+docker ps -a
