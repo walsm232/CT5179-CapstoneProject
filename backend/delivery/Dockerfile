@@ -15,5 +15,8 @@ EXPOSE 8080
 ARG DB_ROOT_PASSWORD
 ENV DB_ROOT_PASSWORD=$DB_ROOT_PASSWORD
 
+ENV DB_HOST="mysql-database"
+ENV DB_PORT=3306
+
 # Command to run the Spring Boot application
 CMD ["java", "-jar", "studentplacementplatform.jar"]
