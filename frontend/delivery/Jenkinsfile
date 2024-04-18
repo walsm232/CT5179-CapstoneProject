@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_REPOSITORY_NAME = "ct5179-capstone-project"
+        IMAGE_NAME = "react-frontend-app"
+        IMAGE_TAG = "latest"
+    }
+
+    stages {
+        stage ("Build") {
+            steps {
+                timeout(time: 5, unit: "MINUTES") {
+                    dir('frontend/student-placement-platform') {
+                        sh "npm install"
+                        sh "npm run build"
+                    }
+                }
+            }
+        }
+
+        stage ("Build Docker Image") {
+            steps {
+                timeout(time: 10, unit: "MINUTES") {
+                    dir('frontend/delivery') {
+                        sh '''
+                        DOCKER_BUILDKIT=1 docker build \
+                            -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage ("Deploy Container") {
+            steps {
+                timeout(time: 5, unit: "MINUTES") {
+                    dir('frontend/delivery') {
+                        sh '''
+                        docker run -d \
+                            --name ${IMAGE_NAME} \
+                            --network student-placement-platform \
+                            -p 8088:80 \
+                            ${IMAGE_NAME}:${IMAGE_TAG}
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}
