@@ -1,11 +1,11 @@
 @echo off
 REM Function to check if a command is available
-:command_exists
-where %1 >nul 2>nul
-if %errorlevel% neq 0 (
-    echo Error: %1 is not installed. Please install %1 and try again.
-    exit /b 1
-)
+REM:command_exists
+REM where %1 >nul 2>nul
+REM if %errorlevel% neq 0 (
+REM   echo Error: %1 is not installed. Please install %1 and try again.
+ REM   exit /b 1
+REM)
 
 REM Check if Docker is installed
 call :command_exists docker
@@ -60,8 +60,8 @@ echo Backend Stage STARTED
 echo ==================================
 
 cd backend\ || exit /b
-mvn clean
-mvn package
+call mvn clean
+call mvn package
 
 REM Build backend Docker image
 docker build --build-arg DB_ROOT_PASSWORD="%DB_ROOT_PASSWORD%" -t spring-boot-backend:latest -f delivery\Dockerfile .
