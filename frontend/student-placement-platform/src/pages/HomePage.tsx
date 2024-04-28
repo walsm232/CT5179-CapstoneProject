@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
             <button>
             <Link to="/Login">Login</Link>
                 </button>
-            <button>Register</button>
+            <button> <Link to="/signup">Register</Link></button>
             <DateDisplay />
         </div>
     )
