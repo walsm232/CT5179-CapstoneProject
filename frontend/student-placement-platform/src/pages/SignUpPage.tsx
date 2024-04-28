@@ -11,25 +11,52 @@ export const SignUpPage = () => {
 
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [usernameValue, setUsernameValue] = useState('');
+    const [firstNameValue, setFirstNameValue] = useState('');
+    const [lastNameValue, setLastNameValue] = useState('');
+    const [roleValue, setRoleValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmpasswordValue, setconfirmPasswordValue] = useState('');
+    
 
    const navigate= useNavigate();
 
-    const onLogInClicked = async () => {
-        const response = await axios.post('/api/login', {
+    const onRegisterClicked = async () => {
+        const response = await axios.post('http://localhost:8089/api/v1/users/register', {
+            username: usernameValue,
+            firstName: firstNameValue,
+            lastName: lastNameValue,
+            role: roleValue,
             email: emailValue,
             password: passwordValue,
         });
         const { token } = response.data;
-      
+      console.log(response);
     }
 
     return (
         <div className="content-container">
-            <h1>Log In</h1>
+            <h1>Register</h1>
             {errorMessage && <div className="fail">{errorMessage}</div>}
+            <input
+                value={usernameValue}
+                onChange={e => setUsernameValue(e.target.value)}
+                placeholder="username" />
+            <input
+                value={firstNameValue}
+                onChange={e => setFirstNameValue(e.target.value)}
+                placeholder="First Name" />
+            <input
+                value={lastNameValue}
+                onChange={e => setLastNameValue(e.target.value)}
+                placeholder="Last Name" />
+            <select defaultValue="" onChange={e => setRoleValue(e.target.value)}>
+                <option value="" disabled>-Role-</option>
+                <option value="Student">Student</option>
+                <option value="Placement Officer">Placement Officer</option>
+                <option value="Placement Company">Placement Company</option>
+            </select>
             <input
                 value={emailValue}
                 onChange={e => setEmailValue(e.target.value)}
@@ -39,15 +66,15 @@ export const SignUpPage = () => {
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 placeholder="password" />
-                 <input
+             <input
                 type="password"
                 value={confirmpasswordValue}
                 onChange={e => setconfirmPasswordValue(e.target.value)}
                 placeholder="password" />
             <hr />
             <button
-                disabled={!emailValue || !passwordValue || confirmpasswordValue !=passwordValue}
-                onClick={onLogInClicked}>Sign Up</button>
+                disabled={!emailValue || !passwordValue || confirmpasswordValue !=passwordValue || !usernameValue || !firstNameValue || !lastNameValue || !roleValue }
+                onClick={onRegisterClicked}>Sign Up</button>
                
             
         </div>
