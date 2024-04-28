@@ -23,17 +23,31 @@ export const SignUpPage = () => {
    const navigate= useNavigate();
 
     const onRegisterClicked = async () => {
-        const response = await axios.post('http://localhost:8089/api/v1/users/register', {
-            username: usernameValue,
-            firstName: firstNameValue,
-            lastName: lastNameValue,
-            role: roleValue,
-            email: emailValue,
-            password: passwordValue,
-        });
-        const { token } = response.data;
-      console.log(response);
-    }
+        try {
+            const response = await axios.post('http://localhost:8089/api/v1/users/register', {
+                username: usernameValue,
+                firstName: firstNameValue,
+                lastName: lastNameValue,
+                role: roleValue,
+                email: emailValue,
+                password: passwordValue,
+            });
+
+            console.log("Response:", response.data);
+
+            if (response.data && response.data.token) {
+                const {token} = response.data;
+            }
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                console.error("Axios error during registration:", error.response?.data || "No additional error info available");
+            } else if (error instanceof Error) {
+                console.error("Error during registration:", error.message);
+            } else {
+                console.error("Unexpected error type during registration:", error);
+            }
+        }
+    };
 
     return (
         <div className="content-container">
