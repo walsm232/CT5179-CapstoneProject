@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../resources/routes-constants'
 
-const NotFoundPage: React.FC = () => {
+const NotFound: React.FC = () => {
     const navigate = useNavigate()
 
     /**
@@ -22,4 +22,4 @@ const NotFoundPage: React.FC = () => {
     )
 }
 
-export default NotFoundPage
+export default NotFound
