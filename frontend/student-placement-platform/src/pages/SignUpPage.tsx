@@ -19,6 +19,7 @@ export const SignUpPage = () => {
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmpasswordValue, setconfirmPasswordValue] = useState('');
     
+    
 
    const navigate= useNavigate();
 
@@ -34,6 +35,7 @@ export const SignUpPage = () => {
             });
 
             console.log("Response:", response.data);
+            navigate('/login');
 
             if (response.data && response.data.token) {
                 const {token} = response.data;
