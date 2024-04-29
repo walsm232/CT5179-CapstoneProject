@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import RootComponent from './RootComponent'
 import { persistor, store } from './store/reducers/store'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
     return (

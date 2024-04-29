@@ -71,3 +71,81 @@ button {
     padding: 16px;
     text-align: center;
 }
+
+/* Homepage */
+.homepage-full-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../../public/images/background-image.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.homepage-centered-content {
+    text-align: center;
+    width: 100%;
+}
+
+.homepage-content-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px 5px rgba(0,0,0,0.2); /* Adjusted for more visibility */
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Register */
+.register-full-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../../public/images/background-image.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.register-centered-content {
+    text-align: center;
+    width: 100%;
+}
+
+.register-content-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px 5px rgba(0,0,0,0.2);
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Login */
+.login-full-screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../../public/images/background-image.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-centered-content {
+    text-align: center;
+    width: 100%;
+}
+
+.login-content-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px 5px rgba(0,0,0,0.2);
+    max-width: 600px;
+    margin: auto;
+}

@@ -1,20 +1,24 @@
 import React from 'react'
 import DateDisplay from '../components/DateDisplay'
-import {Link, useNavigate} from "react-router-dom";
-import { ROUTES } from '../resources/routes-constants';
+import {Link} from "react-router-dom";
 
-const HomePage: React.FC = () => {
+import '../styles/index.css';
 
+const Homepage: React.FC = () => {
     return (
-        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-            <h1 style={{ fontSize: '4em' }}>Home Page</h1>
-            <button>
-            <Link to="/Login">Login</Link>
-                </button>
-            <button> <Link to="/signup">Register</Link></button>
-            <DateDisplay />
+        <div className="homepage-full-screen-container">
+            <div className="homepage-centered-content">
+                <div className="homepage-content-box">
+                    <h2 className="homepage-heading"> Student Placement Platform </h2>
+                    <div className="d-grid gap-2 col-6 mx-auto">
+                        <Link to="/login" className="btn btn-primary btn-lg mt-3" role="button">Login</Link>
+                        <Link to="/register" className="btn btn-secondary btn-lg mb-3 mt-1" role="button">Register</Link>
+                    </div>
+                    <DateDisplay />
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-export default HomePage
+export default Homepage
