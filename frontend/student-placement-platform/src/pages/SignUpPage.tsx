@@ -41,10 +41,13 @@ export const SignUpPage = () => {
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 console.error("Axios error during registration:", error.response?.data || "No additional error info available");
+                setErrorMessage(error.response?.data || "No additional error info available");
             } else if (error instanceof Error) {
                 console.error("Error during registration:", error.message);
+                setErrorMessage(error.message);
             } else {
                 console.error("Unexpected error type during registration:", error);
+                setErrorMessage(JSON.stringify(error));
             }
         }
     };
