@@ -44,7 +44,6 @@ export const Login = () => {
                             onChange={e => setPasswordValue(e.target.value)}
                             placeholder="Password"
                             required />
-                        <hr />
                         <button
                             className="btn btn-primary mb-2"
                             disabled={!usernameValue || !passwordValue}
