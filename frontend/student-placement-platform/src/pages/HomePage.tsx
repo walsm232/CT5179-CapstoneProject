@@ -3,10 +3,12 @@ import DateDisplay from '../components/DateDisplay'
 import {Link} from "react-router-dom";
 
 import '../styles/index.css';
+import NavBar from '../components/NavBar';
 
 const Homepage: React.FC = () => {
     return (
         <div className="homepage-full-screen-container">
+            <NavBar />
             <div className="homepage-centered-content">
                 <div className="homepage-content-box">
                     <h2 className="homepage-heading"> Student Placement Platform </h2>
