@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "react": "^18.2.0",
+    "react-bootstrap-table-next": "^4.0.3",
     "react-dom": "^18.2.0"
   },
   "name": "frontend",
@@ -11,5 +12,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "@types/react-bootstrap": "^0.32.36"
+  }
 }
