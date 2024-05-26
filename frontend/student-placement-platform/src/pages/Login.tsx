@@ -22,7 +22,11 @@ export const Login = () => {
             password: passwordValue,
         });
         console.log(response);
-        const { token } = response.data;
+        if (response.status >=200 && response.status <300){
+           const { token } = response.data;
+           navigate('/StudentProfile/'+response.data.userId);
+        }
+        
       
     }
 
@@ -49,6 +53,7 @@ export const Login = () => {
                             placeholder="Password"
                             required />
                         <button
+                            type="button"
                             className="btn btn-primary mb-2"
                             disabled={!usernameValue || !passwordValue}
                             onClick={onLogInClicked}>Log In</button>
