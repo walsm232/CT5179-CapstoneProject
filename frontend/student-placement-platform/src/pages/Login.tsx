@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import NavBar from '../components/NavBar';
 
 
 export const Login = () => {
@@ -15,16 +16,23 @@ export const Login = () => {
     const navigate= useNavigate();
 
     const onLogInClicked = async () => {
-        const response = await axios.post('/api/login', {
+        console.log("started login");
+        const response = await axios.post('http://localhost:8089/api/v1/users/auth', {
             username: usernameValue,
             password: passwordValue,
         });
-        const { token } = response.data;
+        console.log(response);
+        if (response.status >=200 && response.status <300){
+           const { token } = response.data;
+           navigate('/StudentProfile/'+response.data.userId);
+        }
+        
       
     }
 
     return (
         <div className="login-full-screen-container d-flex justify-content-center align-items-center vh-100">
+            <NavBar />
             <div className="login-centered-content">
                 <div className="login-content-box p-4 bg-white shadow rounded">
                     <h1 className="mb-3">Login</h1>
@@ -45,6 +53,7 @@ export const Login = () => {
                             placeholder="Password"
                             required />
                         <button
+                            type="button"
                             className="btn btn-primary mb-2"
                             disabled={!usernameValue || !passwordValue}
                             onClick={onLogInClicked}>Log In</button>

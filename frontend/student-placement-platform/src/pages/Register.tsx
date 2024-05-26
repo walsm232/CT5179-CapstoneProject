@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import '../styles/index.css';
+import NavBar from '../components/NavBar';
 
 const Register = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -51,6 +52,7 @@ const Register = () => {
 
     return (
         <div className="register-full-screen-container d-flex justify-content-center align-items-center">
+            <NavBar />
             <div className="register-content-box bg-white p-4 shadow rounded col-md-8 col-lg-6">
                 <h1 className="mb-3">Register</h1>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
