@@ -1,9 +1,9 @@
 package com.capstone.studentplacementplatform.repository;
 
-import com.capstone.studentplacementplatform.model.Company;
+import com.capstone.studentplacementplatform.model.Internship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company, Long> {
+public interface InternshipRepository extends JpaRepository<Internship, Long> {
 }
