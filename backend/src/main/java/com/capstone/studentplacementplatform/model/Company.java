@@ -22,8 +22,8 @@ public class Company {
 
     @Column(name = "website")
     private String website;
-    public Company() {
-    }
+
+    public Company() {}
 
     public Company(String companyName, String industry, String location, String website) {
         this.companyName = companyName;
