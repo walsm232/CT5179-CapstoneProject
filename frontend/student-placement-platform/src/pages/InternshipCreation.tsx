@@ -53,7 +53,7 @@ const CreateInternship = () => {
     <div className="register-full-screen-container d-flex justify-content-center align-items-center">
         <NavBar />
         <div className="register-content-box bg-white p-4 shadow rounded col-md-8 col-lg-6">
-            <h1 className="mb-3">Register</h1>
+            <h1 className="mb-3">Create an Internship</h1>
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Success message display */}
             <form className="needs-validation" noValidate>
@@ -62,8 +62,9 @@ const CreateInternship = () => {
                 <textarea className="form-control mb-3" placeholder="Description" value={descriptionValue} onChange={e => setDescription(e.target.value)} required />
                 <input type="text" className="form-control mb-3" placeholder="Duration" value={durationValue} onChange={e => setDuration(e.target.value)} required />
                 <input type="text" className="form-control mb-3" placeholder="Qualifications" value={qualificationsValue} onChange={e => setQualifications(e.target.value)} required />
-                <input type="date" className="form-control mb-3" value={deadlineValue} onChange={e => setApplicationDeadline(e.target.value)} required />
-
+                <label >Application Deadline
+                    <input type="date"  className="form-control mb-3" value={deadlineValue} onChange={e => setApplicationDeadline(e.target.value)} required />
+                </label>
                 <button type="button" className="btn btn-primary mb-3" disabled={!jobTitleValue || !locationValue || !descriptionValue || !durationValue || !qualificationsValue || !deadlineValue} onClick={onInternshipSubmitted}>
                     Submit
                 </button>
