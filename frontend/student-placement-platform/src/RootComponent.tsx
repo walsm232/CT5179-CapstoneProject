@@ -11,6 +11,7 @@ import  EducationList from './pages/EducationList'
 import StudentList from './pages/StudentList'
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
+import CreateInternship from './pages/InternshipCreation'
 
 const RootComponent: React.FC = () => {
     return (
@@ -23,7 +24,7 @@ const RootComponent: React.FC = () => {
                 <Route path="studentlist" element={<StudentList />}/>
                 <Route path="addeducationhistory" element={<AddEducationHistory />}/> 
                 <Route path="educationlist/:id" element={<EducationList />}/> 
-              
+                <Route path="internshipcreation" element={<CreateInternship />} />
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<Homepage />} />
             </Routes>
         </Router>
