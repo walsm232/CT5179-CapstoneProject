@@ -7,11 +7,12 @@ import Register from './pages/Register'
 import StudentProfile from './pages/StudentProfile'
 import  AddEducationHistory from './pages/AddEducationHistory'
 import  EducationList from './pages/EducationList'
-
+import CreateInternship from './pages/InternshipCreation'
 import StudentList from './pages/StudentList'
+import DisplayInternships from './pages/DisplayInternships'
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
-import CreateInternship from './pages/InternshipCreation'
+
 
 const RootComponent: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const RootComponent: React.FC = () => {
                 <Route path="addeducationhistory" element={<AddEducationHistory />}/> 
                 <Route path="educationlist/:id" element={<EducationList />}/> 
                 <Route path="internshipcreation" element={<CreateInternship />} />
+                <Route path="displayinternships" element={<DisplayInternships />}/>
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<Homepage />} />
             </Routes>
         </Router>
