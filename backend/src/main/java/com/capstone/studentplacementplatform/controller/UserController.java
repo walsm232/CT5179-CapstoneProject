@@ -44,17 +44,28 @@ public class UserController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         if (userService.existsByUsername(registrationRequest.getUsername())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Username already exists"));
         }
 
         if (userService.existsByEmail(registrationRequest.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Email already exists"));
         }
 
-        userService.registerUser(registrationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User has been registered successfully");
+        User registeredUser = userService.registerUser(registrationRequest);
+
+        String mockToken = "mock-token";
+
+        Map<String, Object> response = Map.of(
+                "userId", registeredUser.getId(),
+                "username", registeredUser.getUsername(),
+                "email", registeredUser.getEmail(),
+                "message", "User has been registered successfully",
+                "token", mockToken
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/auth")
@@ -70,6 +81,13 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.findAll();
+        users.forEach(user -> user.setPassword("REDACTED"));
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")
