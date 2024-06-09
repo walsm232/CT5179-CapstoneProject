@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,7 +31,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void registerUser(RegistrationRequest request) {
+    public User registerUser(RegistrationRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
@@ -40,6 +41,11 @@ public class UserService {
         user.setRole(request.getRole().toUpperCase());
 
         userRepository.save(user);
+        return user;
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     public Optional<User> findById(Long userId) {
