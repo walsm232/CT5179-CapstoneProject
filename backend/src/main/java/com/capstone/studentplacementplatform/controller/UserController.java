@@ -102,6 +102,21 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @Valid @RequestBody User userDetails) {
+        Optional<User> userOptional = userService.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUsername(userDetails.getUsername());
+            user.setEmail(userDetails.getEmail());
+            User updatedUser = userService.save(user);
+            updatedUser.setPassword("REDACTED");
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/{userId}/skills/{id}")
     public ResponseEntity<?> getSkillById(@PathVariable Long userId, @PathVariable Long id) {
         Optional<UserSkills> skillOptional = skillService.findById(id);
