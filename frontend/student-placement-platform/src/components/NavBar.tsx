@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 const NavBar: React.FC = () => {
 
     return (<nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top px-3">

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import StudentData from "../StudentData.json";
 
-
+import axios from 'axios';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -51,7 +51,19 @@ const tableRowEvents = {
 
 function StudentList(){
 
-   
+  const [studentList, setStudentList] = useState([]);
+  useEffect(() => {
+    const getStudentList = async () => {
+      try {
+        const response = await axios.get('http://localhost:8089/api/v1/users/');
+        setStudentList(response.data);
+       
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStudentList();
+  }, []);
     
     return (
         <div className="App">
