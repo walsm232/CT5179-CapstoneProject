@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import axios from 'axios';
 import  EducationHistory from './AddEducationHistory'
@@ -16,6 +18,89 @@ import { Row } from 'react-bootstrap';
 
 
  
+  const columns2 = [
+    {
+      dataField: "educationid",
+      text: "Education ID",
+      sort: true,
+      hidden: true
+    },
+    {
+      dataField: "institutionName",
+      text: "Institution Name",
+      sort: true
+     
+    },
+    {
+        dataField: "degree",
+        text: "Degree",
+        sort: true
+    },
+    {
+        dataField: "major",
+        text: "Major",
+        sort: true
+    },
+    {
+      dataField: "startDate",
+      text: "Start Date",
+      sort: true
+  },
+  {
+    dataField: "endDate",
+    text: "End Date",
+    sort: true
+},
+{
+  dataField: "remove",
+  text: "",
+  formatter: (cellContent, row) => {
+    return (<div>
+    <FontAwesomeIcon icon={faEdit}  />
+    <FontAwesomeIcon icon={faTrash} />
+   
+      <Button variant="primary" size="sm">
+    <FontAwesomeIcon icon={faEdit} />
+</Button>
+      <Button size="sm">
+    <FontAwesomeIcon icon={faTrash} />
+</Button>
+     </div>
+    
+    );
+  },
+},
+    
+  ];
+
+  const onDeleteClicked = async (educationid,id) => {
+    console.log(educationid,id);
+        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
+        console.log(id); 
+          
+  
+         
+        };
+ 
+
+function EducationHistoryList(){
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const { id } = useParams();
+  const [educationHistory, setEducationHistory] = useState([]);
+  const [educationid, setEducationid] = useState('');
+  const [userid, setUserId] = useState('');
+  const [degree, setDegree] = useState('');
+  const [institutionName, setInstitutionName] = useState('');
+  const [major, setMajor] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState('');
+  
+  const [show, setShow] = useState([false]);
+  const handleClose = () => setShowModal(false);
+  const handleShow= () => setShowModal(true);
   const columns = [
     {
       dataField: "educationid",
@@ -51,48 +136,28 @@ import { Row } from 'react-bootstrap';
 },
 {
   dataField: "remove",
-  text: "Delete",
+  text: "",
+
   formatter: (cellContent, row) => {
     return (
-      <button
-        className="btn btn-danger btn-xs"
-        onClick={() => onDeleteClicked(row, row.userid)}  >
-        Delete
-      </button>
+       <div className="col-sm-6">
+   
+                          
+   
+      <Button  onClick={() => onDeleteClicked(row)} variant="primary" size="sm">
+    <FontAwesomeIcon icon={faTrash} />
+</Button>
+      <Button  onClick={() => editRow(row)} size="sm">
+    <FontAwesomeIcon icon={faEdit} />
+</Button>
+     </div>
+    
     );
   },
 },
     
   ];
 
-  const onDeleteClicked = async (educationid,id) => {
-    
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
-           
-          
-  
-         
-        };
- 
-
-function EducationHistoryList(){
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const { id } = useParams();
-  const [educationHistory, setEducationHistory] = useState([]);
-  const [educationid, setEducationid] = useState('');
-  const [userid, setUserId] = useState('');
-  const [degree, setDegree] = useState('');
-  const [institutionName, setInstitutionName] = useState('');
-  const [major, setMajor] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [modalInfo, setModalInfo] = useState('');
-  
-  const [show, setShow] = useState([false]);
-  const handleClose = () => setShowModal(false);
-  const handleShow= () => setShowModal(true);
 
   const onDeleteClicked = async (row) => {
     setEducationid(row.educationId);
@@ -103,20 +168,46 @@ function EducationHistoryList(){
          
         };
   
+        const editRow = async ( row) => {
+          console.log(row);
+          setEducationid(row.educationId);
+          
+            console.log(row);
+            handleShow();
+            
+            setInstitutionName(row.institutionName);
+            setMajor(row.major);
+            setDegree(row.degree);
+            setStartDate(row.startDate);
+            setEndDate(row.endDate);
+          
+                
         
+               
+              };      
 
-const rowEvents = {
-  onClick :(e, row) => {
-    console.log(row);
-    handleShow();
-    setEducationid(row.educationId);
-    setInstitutionName(row.institutionName);
-    setMajor(row.major);
-    setDegree(row.degree);
-  }
-}
+              const AddRow = async () => {
+                console.log("adding new record");
+                setEducationid("");
+                
+                  
+                  handleShow();
+                  
+                  setInstitutionName("");
+                  setMajor("");
+                  setDegree("");
+                  setStartDate("");
+                  setEndDate("");
+                
+                      
+              
+                     
+                    };    
+
+
 const onSubmitClicked = async () => {
   try {
+    
       const response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'', {
          
         
@@ -129,6 +220,42 @@ const onSubmitClicked = async () => {
       });
 
       if (response.status === 201 || response.status === 200) {
+        window.location.reload();
+          setSuccessMessage('Registration successful! Redirecting to login...');
+          setErrorMessage('');
+          
+      }
+  } catch (error) {
+      if (axios.isAxiosError(error)) {
+          console.error("Axios error during registration:", error.response?.data || "No additional error info available");
+          setErrorMessage(error.response?.data || "No additional error info available");
+      } else if (error instanceof Error) {
+          console.error("Error during registration:", error.message);
+          setErrorMessage(error.message);
+      } else {
+          console.error("Unexpected error type during registration:", error);
+          setErrorMessage("An unexpected error occurred.");
+      }
+  }
+  handleClose();
+  
+};
+const onAddClicked = async () => {
+  try {
+    
+      const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/education-history/', {
+         
+        
+         
+        institutionName: institutionName,
+        degree: degree,
+        major: major,
+        startDate : startDate,
+        endDate : endDate
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        window.location.reload();
           setSuccessMessage('Registration successful! Redirecting to login...');
           setErrorMessage('');
           
@@ -152,15 +279,6 @@ const onSubmitClicked = async () => {
   setShow([true]);
  }
 
- const ModalContent = () =>{
-  return( <Modal  onHide={handleClose}>
-<Modal.Header closeButton>
-  <Modal.Title>{}</Modal.Title>
-</Modal.Header>
-<Modal.Body></Modal.Body>
-<Modal.Footer><Button> onClick=setShow([false])</Button></Modal.Footer>
-  </Modal>)
- }
   const handleCellEdit = (rowId, field, value) => {
     // Update the data array with the edited value
     const updatedData = educationHistory.map((row) =>
@@ -190,7 +308,9 @@ const onSubmitClicked = async () => {
         <div className="App">
        
                   
-           
+       <button type="button" className="btn btn-primary mb-3" onClick={AddRow}>
+                       Add new Education History
+                    </button>
              
 
       <BootstrapTable
@@ -199,10 +319,9 @@ const onSubmitClicked = async () => {
         striped
         data={educationHistory}
         columns={columns}
-        rowEvents={ rowEvents }
-        cellEdit={ cellEditFactory({ mode: 'click', blurToSave: true }) }
+      
    
-      />{show ? <ModalContent/>:null}
+      />
    
     <div
     className="modal show"
@@ -232,7 +351,7 @@ const onSubmitClicked = async () => {
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Close</Button>
        
-        <button type="button" className="btn btn-primary mb-3" onClick={onSubmitClicked}>
+        <button type="button" className="btn btn-primary mb-3" onClick={educationid==""?onAddClicked:onSubmitClicked}>
                        Submit
                     </button>
       </Modal.Footer>
