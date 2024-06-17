@@ -12,6 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Map;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -43,10 +47,28 @@ public class UserControllerTest {
     @Test
     public void testRegisterUser_Success() {
         RegistrationRequest registrationRequest = new RegistrationRequest("John", "Doe", "johndoe123", "johndoe@gmail.com", "password123");
-        ResponseEntity<String> response = userController.registerUser(registrationRequest);
+
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("johndoe123");
+        user.setEmail("johndoe@gmail.com");
+
+        when(userService.existsByUsername("johndoe123")).thenReturn(false);
+        when(userService.existsByEmail("johndoe@gmail.com")).thenReturn(false);
+        when(userService.registerUser(registrationRequest)).thenReturn(user);
+
+        ResponseEntity<?> response = userController.registerUser(registrationRequest);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("User has been registered successfully", response.getBody());
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
+        assert responseBody != null;
+        assertEquals(1L, responseBody.get("userId"));
+        assertEquals("johndoe123", responseBody.get("username"));
+        assertEquals("johndoe@gmail.com", responseBody.get("email"));
+        assertEquals("User has been registered successfully", responseBody.get("message"));
+        assertEquals("mock-token", responseBody.get("token"));
     }
 
     @Test
