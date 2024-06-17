@@ -63,7 +63,7 @@ const Register = () => {
                         <option value="" disabled hidden>Role</option>
                         <option value="Student">Student</option>
                         <option value="Placement Officer">Placement Officer</option>
-                        <option value="Placement Company">Placement Company</option>
+                        <option value="Recruiter">Recruiter</option>
                     </select>
                     <input type="email" className="form-control mb-3" placeholder="Email" value={emailValue} onChange={e => setEmailValue(e.target.value)} required />
                     <input type="password" className="form-control mb-3" placeholder="Password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)} required />
