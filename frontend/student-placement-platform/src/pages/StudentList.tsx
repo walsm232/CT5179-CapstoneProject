@@ -26,23 +26,18 @@ const tableRowEvents = {
       sort: true
     },
     {
-      dataField: "name.first",
+      dataField: "firstName",
       text: "First Name",
       sort: true
     },
     {
-        dataField: "name.last",
+        dataField: "lastName",
         text: "Last Name",
         sort: true
     },
     {
-        dataField: "gender",
-        text: "Gender",
-        sort: true
-    },
-    {
-        dataField: "email[0]",
-        text: "Email",
+        dataField: "role",
+        text: "Role",
         sort: true
     }
     
@@ -55,7 +50,7 @@ function StudentList(){
   useEffect(() => {
     const getStudentList = async () => {
       try {
-        const response = await axios.get('http://localhost:8089/api/v1/users/');
+        const response = await axios.get('http://localhost:8089/api/v1/users');
         setStudentList(response.data);
        
       } catch (error) {
@@ -71,7 +66,7 @@ function StudentList(){
         bootstrap4
         keyField="id"
         striped
-        data={StudentData}
+        data={studentList}
         columns={columns}
         rowEvents={ tableRowEvents }
         pagination={paginationFactory()}
