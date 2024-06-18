@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-const NavBar: React.FC = () => {
+const UnauthenticatedNavbar: React.FC = () => {
 
     return (<nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top px-3">
         <a href="/" className="navbar-brand">Placement System</a>
@@ -18,4 +18,4 @@ const NavBar: React.FC = () => {
         </div>
      </nav>)}
 
-export default NavBar
+export default UnauthenticatedNavbar

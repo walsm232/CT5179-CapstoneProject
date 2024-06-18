@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/UnauthenticatedNavbar';
 
 
 export const Login = () => {
@@ -24,13 +24,7 @@ export const Login = () => {
                 sessionStorage.setItem('userId', userId);
                 sessionStorage.setItem('role', role);
 
-                if (role === 'STUDENT') {
-                    navigate('/student/profile/' + userId);
-                } else if (role === 'PLACEMENT OFFICER') {
-                    navigate('/placement-officer/home');
-                } else if (role === 'RECRUITER') {
-                    navigate('/recruiter/home');
-                }
+                navigate('/dashboard');
             }
         } catch (error) {
             setErrorMessage('Invalid username or password');

@@ -3,7 +3,7 @@ import DateDisplay from '../components/DateDisplay'
 import {Link} from "react-router-dom";
 
 import '../styles/index.css';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/UnauthenticatedNavbar';
 
 const Homepage: React.FC = () => {
     return (

@@ -149,3 +149,8 @@ button {
     max-width: 600px;
     margin: auto;
 }
+
+/* Dashboard */
+.dashboard-content-box {
+    margin-top: 100px;
+}
