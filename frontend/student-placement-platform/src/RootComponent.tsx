@@ -17,7 +17,7 @@ const RootComponent: React.FC = () => {
                 <Route path="*" element={<NotFound />} />
                 <Route path="login" element={<Login />} />  
                 <Route path="register" element={<Register />} /> 
-                <Route path="studentprofile/:id" element={<StudentProfile />} /> 
+                <Route path="profile/:id" element={<StudentProfile />} /> 
                 <Route path="studentlist" element={<StudentList />} />
                 <Route path="addeducationhistory" element={<AddEducationHistory />} /> 
                 <Route path="educationlist/:id" element={<EducationList />} /> 
