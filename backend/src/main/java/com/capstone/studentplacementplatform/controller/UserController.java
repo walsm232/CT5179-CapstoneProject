@@ -76,7 +76,11 @@ public class UserController {
             User user = userOptional.get();
             String hashedPassword = user.getPassword();
             if (passwordEncoder.matches(loginRequest.getPassword(), hashedPassword)) {
-                return ResponseEntity.ok(Map.of("userId", user.getId(), "message", "Login successful"));
+                return ResponseEntity.ok(Map.of(
+                        "userId", user.getId(),
+                        "role", user.getRole(),  // Assuming getRole() method exists
+                        "message", "Login successful"
+                ));
             }
         }
 
