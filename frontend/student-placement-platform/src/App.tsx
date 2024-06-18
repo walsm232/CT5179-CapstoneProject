@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import RootComponent from './RootComponent'
 import { persistor, store } from './store/reducers/store'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBar from './components/NavBar'
+import NavBar from './components/UnauthenticatedNavbar'
 
 const App: React.FC = () => {
     return (
