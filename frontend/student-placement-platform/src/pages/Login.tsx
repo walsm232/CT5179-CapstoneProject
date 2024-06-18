@@ -6,28 +6,36 @@ import NavBar from '../components/NavBar';
 
 
 export const Login = () => {
-    
-
     const [errorMessage, setErrorMessage] = useState('');
-
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
-
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
     const onLogInClicked = async () => {
-        console.log("started login");
-        const response = await axios.post('http://localhost:8089/api/v1/users/auth', {
-            username: usernameValue,
-            password: passwordValue,
-        });
-        console.log(response);
-        if (response.status >=200 && response.status <300){
-           const { token } = response.data;
-           navigate('/StudentProfile/'+response.data.userId);
+        try {
+            const response = await axios.post('http://localhost:8089/api/v1/users/auth', {
+                username: usernameValue,
+                password: passwordValue,
+            });
+            console.log(response);
+
+            if (response.status >= 200 && response.status < 300) {
+                const { userId, role } = response.data;
+                sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('role', role);
+
+                if (role === 'STUDENT') {
+                    navigate('/student/profile/' + userId);
+                } else if (role === 'PLACEMENT OFFICER') {
+                    navigate('/placement-officer/home');
+                } else if (role === 'RECRUITER') {
+                    navigate('/recruiter/home');
+                }
+            }
+        } catch (error) {
+            setErrorMessage('Invalid username or password');
+            console.error(error);
         }
-        
-      
     }
 
     return (
