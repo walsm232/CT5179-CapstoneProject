@@ -65,7 +65,7 @@ const Dashboard = () => {
                             <button 
                                 key={internship.internshipId} 
                                 className="list-group-item list-group-item-action list-group-item-primary"
-                                onClick={() => navigate(`/internshipdetail/${internship.internshipId}`)}
+                                onClick={() => navigate(`/internship/${internship.internshipId}`)}
                             >
                                 <h5 className="mb-1">{internship.jobTitle}</h5>
                                 <p className="mb-1">{internship.company?.companyName}</p>
