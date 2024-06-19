@@ -61,7 +61,7 @@ const AuthenticatedNavbar: React.FC = () => {
                 <ul className="navbar-nav ms-auto">
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {username || 'User'} [{role}]
+                            {username || 'User'} [{role || 'Role'}]
                         </a>
                         <div className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <button className="dropdown-item" onClick={handleProfile}>Profile</button>
