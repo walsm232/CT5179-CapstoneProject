@@ -48,7 +48,7 @@ const AddEducationHistory = () => {
             <div className="register-content-box bg-white p-4 shadow rounded col-md-8 col-lg-6">
                 <h1 className="mb-3">Register</h1>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-                {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Success message display */}
+                {successMessage && <div className="alert alert-success">{successMessage}</div>}
                 <form className="needs-validation" noValidate>
                     <input type="text" className="form-control mb-3" placeholder="Education Id" value={educationid} onChange={e => setEducationid(e.target.value)} required />
                     <input type="text" className="form-control mb-3" placeholder="Institution Name" value={institutionName} onChange={e => setInstitutionName(e.target.value)} required />

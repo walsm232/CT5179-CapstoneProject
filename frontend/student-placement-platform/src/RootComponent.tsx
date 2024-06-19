@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import StudentProfile from './pages/StudentProfile';
 import AddEducationHistory from './pages/AddEducationHistory';
 import EducationList from './pages/EducationList';
+import Account from './pages/Account';
 import StudentList from './pages/StudentList';
 import './styles/main.sass';
 
@@ -23,6 +24,7 @@ const RootComponent: React.FC = () => {
                 <Route path="addeducationhistory" element={<AddEducationHistory />} /> 
                 <Route path="educationlist/:id" element={<EducationList />} /> 
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="account" element={<Account />} />
                 <Route path="internship/:id" element={<InternshipDetail />} />
             </Routes>
         </Router>

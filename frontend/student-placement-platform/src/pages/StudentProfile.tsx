@@ -28,7 +28,7 @@ function StudentProfile() {
 
             if (response.status === 201 || response.status === 200) {
                 setShowAlert(true);
-                setTimeout(() => setShowAlert(false), 3000); // Hide alert after 3 seconds
+                setTimeout(() => setShowAlert(false), 3000);
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -59,35 +59,6 @@ function StudentProfile() {
         <React.Fragment>
             <AuthenticatedNavbar />
             <div className="student-profile-container">
-                <div className="student-profile-card">
-                    {showAlert && (
-                        <Alert variant="success" className="student-profile-alert">
-                            Profile updated successfully!
-                        </Alert>
-                    )}
-                    <h2>Student Profile - {data.firstName} {data.lastName}</h2>
-                    <Form onSubmit={onSubmitClicked}>
-                    <Form.Group className="mb-3" controlId="formFirstName">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" defaultValue={data.firstName} readOnly />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formLastName">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control type="text" defaultValue={data.lastName} readOnly />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formUsername">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control type="text" value={username} onChange={e => setUserName(e.target.value)} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" value={email} onChange={e => setEmail(e.target.value)} />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Update
-                        </Button>
-                    </Form>
-                </div>
                 <div className="student-profile-lists">
                     <h3>Education History</h3>
                     <EducationList />

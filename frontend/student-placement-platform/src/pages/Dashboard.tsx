@@ -4,14 +4,14 @@ import axios from 'axios';
 import NavBar from '../components/AuthenticatedNavbar';
 import '../styles/index.css';
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
     const [internships, setInternships] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCompany, setSelectedCompany] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
-    const [companies, setCompanies] = useState([]);
-    const [locations, setLocations] = useState([]);
+    const [companies, setCompanies] = useState<string[]>([]);
+    const [locations, setLocations] = useState<string[]>([]);
 
     const navigate = useNavigate();
 
@@ -19,11 +19,19 @@ const Dashboard = () => {
         const fetchInternships = async () => {
             try {
                 const response = await axios.get('http://localhost:8089/api/v1/internships');
-                setInternships(response.data);
+                const data = response.data;
+                setInternships(data);
 
-                const uniqueCompanies = [...new Set(response.data.map(internship => internship.company?.companyName))];
-                const uniqueLocations = [...new Set(response.data.map(internship => internship.location))];
+                const companyNames = data
+                    .map((internship: any) => internship.company?.companyName)
+                    .filter((name: string | undefined): name is string => !!name);
+                const uniqueCompanies = Array.from(new Set(companyNames)) as string[];
                 
+                const locationNames = data
+                    .map((internship: any) => internship.location)
+                    .filter((location: string | undefined): location is string => !!location);
+                const uniqueLocations = Array.from(new Set(locationNames)) as string[];
+
                 setCompanies(uniqueCompanies);
                 setLocations(uniqueLocations);
             } catch (error) {
@@ -43,19 +51,19 @@ const Dashboard = () => {
         fetchInternships();
     }, []);
 
-    const handleSearch = (event) => {
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
 
-    const handleCompanyChange = (event) => {
+    const handleCompanyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedCompany(event.target.value);
     };
 
-    const handleLocationChange = (event) => {
+    const handleLocationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedLocation(event.target.value);
     };
 
-    const filteredInternships = internships.filter(internship => 
+    const filteredInternships = internships.filter((internship: any) => 
         (internship.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
         internship.company?.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         internship.location.toLowerCase().includes(searchQuery.toLowerCase())) &&
@@ -93,7 +101,7 @@ const Dashboard = () => {
                 )}
                 {!errorMessage && filteredInternships.length > 0 && (
                     <div className="list-group">
-                        {filteredInternships.map(internship => (
+                        {filteredInternships.map((internship: any) => (
                             <button 
                                 key={internship.internshipId} 
                                 className="list-group-item list-group-item-action list-group-item-primary"
