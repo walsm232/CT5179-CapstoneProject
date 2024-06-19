@@ -228,3 +228,27 @@ button {
     width: 100%;
     margin-top: 100px;
 }
+
+/* Account Page */
+.account-full-screen-container {
+    background: url('../../public/images/authenticated-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-content-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.account-alert {
+    margin-bottom: 1rem;
+}

@@ -39,6 +39,10 @@ const AuthenticatedNavbar: React.FC = () => {
         navigate('/login');
     };
 
+    const handleAccount = () => {
+        navigate(`/account`);
+    };
+
     const handleProfile = () => {
         const userId = sessionStorage.getItem('userId');
         if (userId) {
@@ -59,16 +63,19 @@ const AuthenticatedNavbar: React.FC = () => {
                     </li>
                 </ul>
                 <ul className="navbar-nav ms-auto">
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {username || 'User'} [{role || 'Role'}]
-                        </a>
-                        <div className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <button className="dropdown-item" onClick={handleProfile}>Profile</button>
-                            <button className="dropdown-item" onClick={handleLogout}>Logout</button>
-                        </div>
-                    </li>
-                </ul>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {username || 'User'} [{role || 'Role'}]
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <button className="dropdown-item" onClick={handleAccount}>My Account</button>
+                                {role === 'STUDENT' && (
+                                    <button className="dropdown-item" onClick={handleProfile}>Career Profile</button>
+                                )}
+                                <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                            </div>
+                        </li>
+                    </ul>
             </div>
         </nav>
     );
