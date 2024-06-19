@@ -20,9 +20,10 @@ export const Login = () => {
             console.log(response);
 
             if (response.status >= 200 && response.status < 300) {
-                const { userId, role } = response.data;
+                const { userId, role, username} = response.data;
                 sessionStorage.setItem('userId', userId);
                 sessionStorage.setItem('role', role);
+                sessionStorage.setItem('username', username)
 
                 navigate('/dashboard');
             }
