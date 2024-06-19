@@ -1,42 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 const AuthenticatedNavbar: React.FC = () => {
+    const [username, setUsername] = useState<string | null>(null);
+    const [role, setRole] = useState<string | null>(null);
     const navigate = useNavigate();
-    const role = sessionStorage.getItem('role');
-    const userId = sessionStorage.getItem('userId');
+
+    useEffect(() => {
+        const storedUsername = sessionStorage.getItem('username');
+        if (storedUsername) {
+            try {
+                const parsedUsername = JSON.parse(storedUsername);
+                if (typeof parsedUsername === 'string') {
+                    setUsername(parsedUsername);
+                }
+            } catch (e) {
+                setUsername(storedUsername);
+            }
+        }
+        const storedRole = sessionStorage.getItem('role');
+        if (storedRole) {
+            try {
+                const parsedUsername = JSON.parse(storedRole);
+                if (typeof parsedUsername === 'string') {
+                    setRole(parsedUsername);
+                }
+            } catch (e) {
+                setRole(storedRole);
+            }
+        }
+    }, []);
 
     const handleLogout = () => {
-        sessionStorage.removeItem('userId');
-        sessionStorage.removeItem('role');
+        sessionStorage.clear();
         navigate('/login');
+    };
+
+    const handleProfile = () => {
+        const userId = sessionStorage.getItem('userId');
+        if (userId) {
+            navigate(`/profile/${userId}`);
+        }
     };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top px-3">
-            <a href="/dashboard" className="navbar-brand">Placement System</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <a href="/" className="navbar-brand">Placement System</a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav me-auto">
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         <a className="nav-link" href="/dashboard">Dashboard</a>
                     </li>
-                    {role === 'STUDENT' && (
-                        <li className="nav-item">
-                            <a className="nav-link" href={`/profile/${userId}`}>Profile</a>
-                        </li>
-                    )}
-                    {role === 'RECRUITER' && (
-                        <li className="nav-item">
-                            <a className="nav-link" href="/company">Company</a>
-                        </li>
-                    )}
                 </ul>
                 <ul className="navbar-nav ms-auto">
-                    <li className="nav-item">
-                        <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {username || 'User'} [{role}]
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <button className="dropdown-item" onClick={handleProfile}>Profile</button>
+                            <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                        </div>
                     </li>
                 </ul>
             </div>
