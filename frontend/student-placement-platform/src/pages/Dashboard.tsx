@@ -8,6 +8,10 @@ const Dashboard = () => {
     const [internships, setInternships] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCompany, setSelectedCompany] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState('');
+    const [companies, setCompanies] = useState([]);
+    const [locations, setLocations] = useState([]);
 
     const navigate = useNavigate();
 
@@ -16,6 +20,12 @@ const Dashboard = () => {
             try {
                 const response = await axios.get('http://localhost:8089/api/v1/internships');
                 setInternships(response.data);
+
+                const uniqueCompanies = [...new Set(response.data.map(internship => internship.company?.companyName))];
+                const uniqueLocations = [...new Set(response.data.map(internship => internship.location))];
+                
+                setCompanies(uniqueCompanies);
+                setLocations(uniqueLocations);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     console.error("Axios error fetching internships:", error.response?.data || "No additional error info available");
@@ -37,10 +47,20 @@ const Dashboard = () => {
         setSearchQuery(event.target.value);
     };
 
-    const filteredInternships = internships.filter(internship =>
-        internship.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const handleCompanyChange = (event) => {
+        setSelectedCompany(event.target.value);
+    };
+
+    const handleLocationChange = (event) => {
+        setSelectedLocation(event.target.value);
+    };
+
+    const filteredInternships = internships.filter(internship => 
+        (internship.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
         internship.company?.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        internship.location.toLowerCase().includes(searchQuery.toLowerCase())
+        internship.location.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        (selectedCompany === '' || internship.company?.companyName === selectedCompany) &&
+        (selectedLocation === '' || internship.location === selectedLocation)
     );
 
     return (
@@ -55,6 +75,18 @@ const Dashboard = () => {
                     value={searchQuery}
                     onChange={handleSearch}
                 />
+                <select className="form-control mb-3" value={selectedCompany} onChange={handleCompanyChange}>
+                    <option value="">All Companies</option>
+                    {companies.map(company => (
+                        <option key={company} value={company}>{company}</option>
+                    ))}
+                </select>
+                <select className="form-control mb-3" value={selectedLocation} onChange={handleLocationChange}>
+                    <option value="">All Locations</option>
+                    {locations.map(location => (
+                        <option key={location} value={location}>{location}</option>
+                    ))}
+                </select>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                 {!errorMessage && filteredInternships.length === 0 && (
                     <div className="alert alert-info">No internships currently available.</div>
