@@ -114,6 +114,8 @@ public class UserController {
             User user = userOptional.get();
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
+            user.setFirstName(userDetails.getFirstName());
+            user.setLastName(userDetails.getLastName());
             User updatedUser = userService.save(user);
             updatedUser.setPassword("REDACTED");
             return ResponseEntity.ok(updatedUser);

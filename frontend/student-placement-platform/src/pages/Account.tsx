@@ -62,6 +62,7 @@ function Account() {
             if (response.status === 200 || response.status === 201) {
                 setShowAlert(true);
                 setTimeout(() => setShowAlert(false), 3000);
+                fetchUserData(userId);
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
