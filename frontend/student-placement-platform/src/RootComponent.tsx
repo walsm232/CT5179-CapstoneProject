@@ -11,6 +11,7 @@ import AddEducationHistory from './pages/AddEducationHistory'
 import EducationList from './pages/EducationList'
 import Account from './pages/Account'
 import StudentList from './pages/StudentList'
+import CreateCompany from './pages/CreateCompany'
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
 
@@ -28,6 +29,7 @@ const RootComponent: React.FC = () => {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="account" element={<Account />} />
                 <Route path="internship/:id" element={<InternshipDetail />} />
+                <Route path="createcompany" element={<CreateCompany />} />
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<Homepage />} />
             </Routes>
         </Router>
