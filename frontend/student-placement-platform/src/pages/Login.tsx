@@ -2,32 +2,35 @@ import React from 'react';
 import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/UnauthenticatedNavbar';
 
 
 export const Login = () => {
-    
-
     const [errorMessage, setErrorMessage] = useState('');
-
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
-
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
     const onLogInClicked = async () => {
-        console.log("started login");
-        const response = await axios.post('http://localhost:8089/api/v1/users/auth', {
-            username: usernameValue,
-            password: passwordValue,
-        });
-        console.log(response);
-        if (response.status >=200 && response.status <300){
-           const { token } = response.data;
-           navigate('/StudentProfile/'+response.data.userId);
+        try {
+            const response = await axios.post('http://localhost:8089/api/v1/users/auth', {
+                username: usernameValue,
+                password: passwordValue,
+            });
+            console.log(response);
+
+            if (response.status >= 200 && response.status < 300) {
+                const { userId, role, username} = response.data;
+                sessionStorage.setItem('userId', userId);
+                sessionStorage.setItem('role', role);
+                sessionStorage.setItem('username', username)
+
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            setErrorMessage('Invalid username or password');
+            console.error(error);
         }
-        
-      
     }
 
     return (

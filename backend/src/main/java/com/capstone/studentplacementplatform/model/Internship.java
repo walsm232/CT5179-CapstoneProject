@@ -12,7 +12,7 @@ public class Internship {
     @Column(name = "internship_id")
     private Long internshipId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     private Company company;
 

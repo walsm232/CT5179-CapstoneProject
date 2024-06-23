@@ -76,7 +76,12 @@ public class UserController {
             User user = userOptional.get();
             String hashedPassword = user.getPassword();
             if (passwordEncoder.matches(loginRequest.getPassword(), hashedPassword)) {
-                return ResponseEntity.ok(Map.of("userId", user.getId(), "message", "Login successful"));
+                return ResponseEntity.ok(Map.of(
+                        "userId", user.getId(),
+                        "role", user.getRole(),
+                        "username", user.getUsername(),
+                        "message", "Login successful"
+                ));
             }
         }
 
@@ -109,6 +114,8 @@ public class UserController {
             User user = userOptional.get();
             user.setUsername(userDetails.getUsername());
             user.setEmail(userDetails.getEmail());
+            user.setFirstName(userDetails.getFirstName());
+            user.setLastName(userDetails.getLastName());
             User updatedUser = userService.save(user);
             updatedUser.setPassword("REDACTED");
             return ResponseEntity.ok(updatedUser);

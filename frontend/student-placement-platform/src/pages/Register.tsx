@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import '../styles/index.css';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/UnauthenticatedNavbar';
 
 const Register = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -56,7 +56,7 @@ const Register = () => {
             <div className="register-content-box bg-white p-4 shadow rounded col-md-8 col-lg-6">
                 <h1 className="mb-3">Register</h1>
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-                {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Success message display */}
+                {successMessage && <div className="alert alert-success">{successMessage}</div>}
                 <form className="needs-validation" noValidate>
                     <input type="text" className="form-control mb-3" placeholder="Username" value={usernameValue} onChange={e => setUsernameValue(e.target.value)} required />
                     <input type="text" className="form-control mb-3" placeholder="First Name" value={firstNameValue} onChange={e => setFirstNameValue(e.target.value)} required />
@@ -65,7 +65,7 @@ const Register = () => {
                         <option value="" disabled hidden>Role</option>
                         <option value="Student">Student</option>
                         <option value="Placement Officer">Placement Officer</option>
-                        <option value="Placement Company">Placement Company</option>
+                        <option value="Recruiter">Recruiter</option>
                     </select>
                     <input type="email" className="form-control mb-3" placeholder="Email" value={emailValue} onChange={e => setEmailValue(e.target.value)} required />
                     <input type="password" className="form-control mb-3" placeholder="Password" value={passwordValue} onChange={e => setPasswordValue(e.target.value)} required />
