@@ -13,7 +13,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 const tableRowEvents = {
     onClick: (e, row, rowIndex) => {
       console.log(`clicked on row with index: ${rowIndex}`);
-      window.open("studentprofile/"+ rowIndex);
+      window.open("profile/"+ row.id);
     },
     onMouseEnter: (e, row, rowIndex) => {
       console.log(`enter on row with index: ${rowIndex}`);
@@ -23,7 +23,8 @@ const tableRowEvents = {
     {
       dataField: "id",
       text: "Student ID",
-      sort: true
+      sort: true,
+      hidden: true
     },
     {
       dataField: "firstName",
@@ -36,10 +37,15 @@ const tableRowEvents = {
         sort: true
     },
     {
-        dataField: "role",
-        text: "Role",
+        dataField: "userName",
+        text: "User Name",
         sort: true
-    }
+    },
+    {
+      dataField: "email",
+      text: "Email",
+      sort: true
+  }
     
   ];
 
