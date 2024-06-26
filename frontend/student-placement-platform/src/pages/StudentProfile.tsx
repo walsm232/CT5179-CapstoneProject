@@ -52,20 +52,66 @@ function StudentProfile() {
     }, [id]);
 
     if (!data) {
-        return <div>Loading...</div>;
+        return <div>
+            
+            Loading...</div>;
     }
 
     return (
         <React.Fragment>
             <AuthenticatedNavbar />
+           
             <div className="student-profile-container">
+           
+            
                 <div className="student-profile-lists">
+                <Form onSubmit={onSubmitClicked}>
+                <Form.Group className="mb-3" controlId="formFirstName">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={data.firstName}
+                               
+                            />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formLastName">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={data.lastName}
+                                
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formUsername">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={data.username}
+                                onChange={e => setUserName(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                                type="email"
+                                value={data.email}
+                                onChange={e => setEmail(e.target.value)}
+                            />
+                        </Form.Group>
+                        <div className="col-sm-2"><Button variant="primary" type="submit">
+                            Update
+                        </Button></div></Form>
+                
+                <h3>Skills</h3>
+                    <SkillList />
                     <h3>Education History</h3>
                     <EducationList />
-                    <h3>Skills</h3>
-                    <SkillList />
+                    
                 </div>
+               
             </div>
+        
+            
         </React.Fragment>
     );
 }

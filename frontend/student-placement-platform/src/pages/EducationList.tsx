@@ -188,7 +188,7 @@ function EducationHistoryList(){
 
               const AddRow = async () => {
                 console.log("adding new record");
-                setEducationid("");
+                setEducationid(null);
                 
                   
                   handleShow();
@@ -206,18 +206,20 @@ function EducationHistoryList(){
 
 
 const onSubmitClicked = async () => {
+  
   try {
-    
-      const response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'', {
+  
+    const response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'', {
          
         
-         
+  userId:id, 
         institutionName: institutionName,
         degree: degree,
         major: major,
         startDate : startDate,
         endDate : endDate
       });
+
 
       if (response.status === 201 || response.status === 200) {
         window.location.reload();
@@ -243,10 +245,10 @@ const onSubmitClicked = async () => {
 const onAddClicked = async () => {
   try {
     
-      const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/education-history/', {
+      const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/education-history', {
          
         
-         
+        userId:id, 
         institutionName: institutionName,
         degree: degree,
         major: major,
@@ -343,7 +345,7 @@ const onAddClicked = async () => {
                     <input type="text" className="form-control mb-3" placeholder="Major" value={major} onChange={e => setMajor(e.target.value)} required />
                     
                     <input type="email" className="form-control mb-3" placeholder="Degree" value={degree} onChange={e => setDegree(e.target.value)} required />
-                    <input type="date" className="form-control mb-3" placeholder="Start Date"  onChange={e => setStartDate(e.target.value)} required />
+                    <input type="date"  className="form-control mb-3" placeholder="Start Date"  onChange={e => setStartDate(e.target.value)} required />
                     <input type="date" className="form-control mb-3" placeholder="End Date"  onChange={e => setEndDate(e.target.value)} required />
                     </form>
                     </div>  </Modal.Body>
@@ -351,7 +353,7 @@ const onAddClicked = async () => {
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Close</Button>
        
-        <button type="button" className="btn btn-primary mb-3" onClick={educationid==""?onAddClicked:onSubmitClicked}>
+        <button type="button" className="btn btn-primary mb-3" onClick={educationid==null?onAddClicked:onSubmitClicked}>
                        Submit
                     </button>
       </Modal.Footer>

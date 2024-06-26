@@ -19,60 +19,7 @@ import { Row } from 'react-bootstrap';
 
 
  
-  const columns2 = [
-    {
-      dataField: "educationid",
-      text: "Education ID",
-      sort: true,
-      hidden: true
-    },
-    {
-      dataField: "institutionName",
-      text: "Institution Name",
-      sort: true
-     
-    },
-    {
-        dataField: "degree",
-        text: "Degree",
-        sort: true
-    },
-    {
-        dataField: "major",
-        text: "Major",
-        sort: true
-    },
-    {
-      dataField: "startDate",
-      text: "Start Date",
-      sort: true
-  },
-  {
-    dataField: "endDate",
-    text: "End Date",
-    sort: true
-},
-{
-  dataField: "remove",
-  text: "",
-  formatter: (cellContent, row) => {
-    return (<div>
-    <FontAwesomeIcon icon={faEdit}  />
-    <FontAwesomeIcon icon={faTrash} />
-   
-      <Button variant="primary" size="sm">
-    <FontAwesomeIcon icon={faEdit} />
-</Button>
-      <Button size="sm">
-    <FontAwesomeIcon icon={faTrash} />
-</Button>
-     </div>
-    
-    );
-  },
-},
-    
-  ];
+  
 
   const onDeleteClicked = async (educationid,id) => {
     console.log(educationid,id);
@@ -84,8 +31,9 @@ import { Row } from 'react-bootstrap';
         };
  
 
-function EducationHistoryList(){
+function SkillList(){
   const [errorMessage, setErrorMessage] = useState('');
+  const [editUrl, setUrl ]= useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const { id } = useParams();
   const [skills, setSkills] = useState([]);
@@ -108,94 +56,115 @@ function EducationHistoryList(){
   const columns = [
     {
       dataField: "skillId",
-      text: "Education ID",
+      text: "Skill ID",
       sort: true,
       hidden: true
     },
     {
       dataField: "skillName",
       text: "",
-      sort: true
-     
+      sort: true,
+      editable: true,
     },
     
 {
   dataField: "remove",
   text: "",
+  editable: false,
 
-  formatter: (cellContent, row) => {
+  formatter: (cellContent, row, rowIndex) => {
     return (
-       <div className="col-sm-6">
+      <div className="col-sm-2">
    
                           
    
-     
+      <Button  onClick={() => onDeleteClicked(row)} variant="primary" size="sm">
+    <FontAwesomeIcon icon={faTrash} />
+</Button>
+      
      </div>
     
     );
   },
 },
+
     
   ];
 
-
-  const onDeleteClicked = async (row) => {
-    setEducationid(row.educationId);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
+  const AddClicked = async (row) => {
+    setSkillid(row.skillId);
+        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
            
           
   
          
         };
+
+  const onDeleteClicked = async (row) => {
+    setSkillid(row.skillId);
+    console.log(row.skillId);  
+        
+        try {
+          const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
+          
+          
+            if (response.status === 201 || response.status === 200) {
+              window.location.reload();
+                setSuccessMessage('Delete complete..');
+                setErrorMessage('');
+                
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("Axios error during registration:", error.response?.data || "No additional error info available");
+                setErrorMessage(error.response?.data || "No additional error info available");
+            } else if (error instanceof Error) {
+                console.error("Error during registration:", error.message);
+                setErrorMessage(error.message);
+            } else {
+                console.error("Unexpected error type during registration:", error);
+                setErrorMessage("An unexpected error occurred.");
+            }
+        }
+          
+        window.location.reload();   
+         
+        };
   
-        const editRow = async ( row) => {
-          console.log(row);
-          setEducationid(row.educationId);
-          
-            console.log(row);
-            handleShow();
-            
-            setInstitutionName(row.institutionName);
-            setMajor(row.major);
-            setDegree(row.degree);
-            setStartDate(row.startDate);
-            setEndDate(row.endDate);
-          
-                
-        
-               
-              };      
-
-              const AddRow = async () => {
-                console.log("adding new record");
-                setEducationid("");
-                
-                  
-                  handleShow();
-                  
-                  setInstitutionName("");
-                  setMajor("");
-                  setDegree("");
-                  setStartDate("");
-                  setEndDate("");
-                
-                      
-              
-                     
-                    };    
+      
+             
+  const AddRow  = async () => {
+    console.log("clicked");       
+  
+  skills.push({skillId:100101, skillName:"Please enter skill name"})
+  console.log(skills);               
+  setSkills(skills) ;       
+   
+      };    
 
 
-const onSubmitClicked = async () => {
-  try {
+const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
+  let skillid;
+  if (row.skillId==null){
+    skillid ="";
     
-      const response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/skills/'+skillid+'', {
-         
-        
-         
-        skillName: skillName,
+  }else
+  {skillid =row.skillId}
+  console.log(skillid);
+  try {
+    let response;
+    if (row.skillId==100101){
+       response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/skills', {
+         skillName: newvalue,
         
       });
-
+    }
+    else{
+       response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'', {
+        skillName: newvalue,
+       
+     });
+    }
       if (response.status === 201 || response.status === 200) {
         window.location.reload();
           setSuccessMessage('Registration successful! Redirecting to login...');
@@ -214,60 +183,25 @@ const onSubmitClicked = async () => {
           setErrorMessage("An unexpected error occurred.");
       }
   }
- 
+  window.location.reload();
   
 };
-const onAddClicked = async () => {
-  try {
-    
-      const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/education-history/', {
-         
-        
-         
-        institutionName: institutionName,
-        degree: degree,
-        major: major,
-        startDate : startDate,
-        endDate : endDate
-      });
 
-      if (response.status === 201 || response.status === 200) {
-        window.location.reload();
-          setSuccessMessage('Registration successful! Redirecting to login...');
-          setErrorMessage('');
-          
-      }
-  } catch (error) {
-      if (axios.isAxiosError(error)) {
-          console.error("Axios error during registration:", error.response?.data || "No additional error info available");
-          setErrorMessage(error.response?.data || "No additional error info available");
-      } else if (error instanceof Error) {
-          console.error("Error during registration:", error.message);
-          setErrorMessage(error.message);
-      } else {
-          console.error("Unexpected error type during registration:", error);
-          setErrorMessage("An unexpected error occurred.");
-      }
-  }
-  handleClose();
-  
-};
- const toggleTrueFalse =() =>{
-  setShow([true]);
- }
+
+
 
   const handleCellEdit = (rowId, field, value) => {
     // Update the data array with the edited value
-    const updatedData = educationHistory.map((row) =>
+    const updatedData = skills.map((row) =>
       row.id === rowId ? { ...row, [field]: value } : row
     );
-    setEducationHistory(updatedData);
+    setSkills(updatedData);
   };
   const [rows, initRow] = useState([]);
 
   
   useEffect(() => {
-    const getEducationalHistory = async () => {
+    const getSkills = async () => {
       try {
         const response = await axios.get('http://localhost:8089/api/v1/users/'+id+'/skills');
         setSkills(response.data);
@@ -276,7 +210,7 @@ const onAddClicked = async () => {
         console.log(error);
       }
     };
-    getEducationalHistory();
+    getSkills();
   }, []);
   
     
@@ -284,8 +218,10 @@ const onAddClicked = async () => {
  
         <div className="App">
        
-                  
-      
+       <div className="col-sm-2">    
+       <Button  onClick={AddRow} variant="primary" size="sm">
+       Add Skill
+</Button></div>
              
 
       <BootstrapTable
@@ -294,45 +230,15 @@ const onAddClicked = async () => {
         striped
         data={skills}
         columns={columns}
-        cellEdit={ cellEditFactory({ mode: 'click',blurToSave: true }) }
+     
+        cellEdit={ cellEditFactory({ mode: 'click',blurToSave: true,afterSaveCell: onSubmitClicked, }) }
    
       />
    
-    <div
-    className="modal show"
-    style={{ display: 'block', position: 'initial' }}
-  >
-    <Modal show={showModal} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Education</Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-      
-            <div>
-               
-            
-                <form className="needs-validation" noValidate>
-                   
-                    <input type="text" className="form-control mb-3" placeholder="Institution Name" value={institutionName} onChange={e => setInstitutionName(e.target.value)} required />
-                    <input type="text" className="form-control mb-3" placeholder="Major" value={major} onChange={e => setMajor(e.target.value)} required />
-                    
-                    <input type="email" className="form-control mb-3" placeholder="Degree" value={degree} onChange={e => setDegree(e.target.value)} required />
-                    <input type="date" className="form-control mb-3" placeholder="Start Date"  onChange={e => setStartDate(e.target.value)} required />
-                    <input type="date" className="form-control mb-3" placeholder="End Date"  onChange={e => setEndDate(e.target.value)} required />
-                    </form>
-                    </div>  </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>Close</Button>
-       
-        <button type="button" className="btn btn-primary mb-3" onClick={educationid==""?onAddClicked:onSubmitClicked}>
-                       Submit
-                    </button>
-      </Modal.Footer>
-    </Modal>
-  </div> </div>
+    
+    
+  </div> 
     
     );
     }
-    export default  EducationHistoryList;
+    export default  SkillList;
