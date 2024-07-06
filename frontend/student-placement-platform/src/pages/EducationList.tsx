@@ -18,69 +18,9 @@ import { Row } from 'react-bootstrap';
 
 
  
-  const columns2 = [
-    {
-      dataField: "educationid",
-      text: "Education ID",
-      sort: true,
-      hidden: true
-    },
-    {
-      dataField: "institutionName",
-      text: "Institution Name",
-      sort: true
-     
-    },
-    {
-        dataField: "degree",
-        text: "Degree",
-        sort: true
-    },
-    {
-        dataField: "major",
-        text: "Major",
-        sort: true
-    },
-    {
-      dataField: "startDate",
-      text: "Start Date",
-      sort: true
-  },
-  {
-    dataField: "endDate",
-    text: "End Date",
-    sort: true
-},
-{
-  dataField: "remove",
-  text: "",
-  formatter: (cellContent, row) => {
-    return (<div>
-    <FontAwesomeIcon icon={faEdit}  />
-    <FontAwesomeIcon icon={faTrash} />
-   
-      <Button variant="primary" size="sm">
-    <FontAwesomeIcon icon={faEdit} />
-</Button>
-      <Button size="sm">
-    <FontAwesomeIcon icon={faTrash} />
-</Button>
-     </div>
-    
-    );
-  },
-},
-    
-  ];
-
-  const onDeleteClicked = async (educationid,id) => {
-    console.log(educationid,id);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
-        console.log(id); 
-          
   
-         
-        };
+
+ 
  
 
 function EducationHistoryList(){
@@ -94,6 +34,8 @@ function EducationHistoryList(){
   const [institutionName, setInstitutionName] = useState('');
   const [major, setMajor] = useState('');
   const [startDate, setStartDate] = useState('');
+  const [dspstartDate, setdspStartDate] = useState('');
+  const [dspEndDate, setdspEndDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState('');
@@ -127,7 +69,9 @@ function EducationHistoryList(){
     {
       dataField: "startDate",
       text: "Start Date",
-      sort: true
+      sort: true,
+      type:"Date"
+      
   },
   {
     dataField: "endDate",
@@ -161,7 +105,8 @@ function EducationHistoryList(){
 
   const onDeleteClicked = async (row) => {
     setEducationid(row.educationId);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
+    console.log(row.educationId);
+        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+row.educationid+'');
            
           
   
@@ -179,8 +124,10 @@ function EducationHistoryList(){
             setMajor(row.major);
             setDegree(row.degree);
             setStartDate(row.startDate);
+            setpickerdate(row.startDate,"StartDate");
+            
             setEndDate(row.endDate);
-          
+            setpickerdate(row.endDate,"EndDate");
                 
         
                
@@ -303,17 +250,67 @@ const onAddClicked = async () => {
     };
     getEducationalHistory();
   }, []);
+
+
+  const setdate= async (newDate, fieldName) => {
+    console.error("Error during registration3:" , newDate);
+  const date = new Date(newDate);
+  /* Date format you have */
   
-    
+  const dateMDY = "`"+date.getDate()+"-"+date.getMonth() +"-"+date.getFullYear()+"'";
+  const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+const month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+const dateMDY2= `${year}-${month}-${day}`;
+console.error("Error during registration:" , dateMDY2);
+if (fieldName =="StartDate"){
+  setStartDate(dateMDY2);}
+  else {setEndDate(dateMDY2);}
+  setpickerdate(newDate,fieldName);
+ 
+}
+const formatdate= async (newDate) => {
+  console.error("Error during registration3:" , newDate);
+const date = new Date(newDate);
+/* Date format you have */
+
+
+const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+const month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+const dateMDY= `${year}-${month}-${day}`;
+console.error("Error during registration:" , dateMDY);
+
+return dateMDY;
+
+}
+const setpickerdate= async (newDate,fieldName) => {
+   
+  const date = new Date(newDate);
+  /* Date format you have */
+  
+  
+  const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+const month = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+const dateMDY= `${year}-${month}-${day}`;
+console.error("Error during registration2:" , dateMDY);
+if (fieldName =="StartDate"){
+  setdspStartDate(dateMDY)}
+  else {setdspEndDate(dateMDY);}
+
+ 
+}
+  /* Date converted to MM-DD-YYYY format */
     return ( 
  
         <div className="App">
-       
+       <div className="col-sm-4"> 
                   
        <button type="button" className="btn btn-primary mb-3" onClick={AddRow}>
-                       Add new Education History
+                       Add Education History
                     </button>
-             
+             </div>
 
       <BootstrapTable
         bootstrap4
@@ -331,7 +328,7 @@ const onAddClicked = async () => {
   >
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Add Education</Modal.Title>
+        <Modal.Title>Education History</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -345,15 +342,17 @@ const onAddClicked = async () => {
                     <input type="text" className="form-control mb-3" placeholder="Major" value={major} onChange={e => setMajor(e.target.value)} required />
                     
                     <input type="email" className="form-control mb-3" placeholder="Degree" value={degree} onChange={e => setDegree(e.target.value)} required />
-                    <input type="date"  className="form-control mb-3" placeholder="Start Date"  onChange={e => setStartDate(e.target.value)} required />
-                    <input type="date" className="form-control mb-3" placeholder="End Date"  onChange={e => setEndDate(e.target.value)} required />
+                    <input type="date"  className="form-control mb-3" placeholder="Start Date" value= {dspstartDate} onChange={e => setdate(e.target.value,"StartDate")} required />
+                    <input type="date" className="form-control mb-3" placeholder="End Date" value= {dspEndDate} onChange={e => setdate(e.target.value,"EndDate")} required />
                     </form>
                     </div>  </Modal.Body>
 
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Close</Button>
        
-        <button type="button" className="btn btn-primary mb-3" onClick={educationid==null?onAddClicked:onSubmitClicked}>
+        <button type="button" className="btn btn-primary mb-3"
+        disabled={!institutionName || !major ||!degree || !dspstartDate || !dspEndDate}
+        onClick={educationid==null?onAddClicked:onSubmitClicked}>
                        Submit
                     </button>
       </Modal.Footer>

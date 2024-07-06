@@ -133,15 +133,17 @@ function SkillList(){
   
       
              
-  const AddRow  = async () => {
-    console.log("clicked");       
-  
-  skills.push({skillId:100101, skillName:"Please enter skill name"})
-  console.log(skills);               
-  setSkills(skills) ;       
-   
-      };    
 
+
+
+const onAddSkill = async () => {
+  const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/skills', {
+    skillName: skillName,
+   
+ });
+ window.location.reload(); 
+
+}
 
 const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
   let skillid;
@@ -217,11 +219,14 @@ const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
     return ( 
  
         <div className="App">
+      
+       <div className="col-sm-6">    
        
-       <div className="col-sm-2">    
-       <Button  onClick={AddRow} variant="primary" size="sm">
+<input type="text" className="form-control mb-3" placeholder="Please enter skill name"  onChange={e => setSkillName(e.target.value)} required />
+<Button  onClick={onAddSkill} variant="primary" size="sm">
        Add Skill
-</Button></div>
+</Button>
+</div>
              
 
       <BootstrapTable
@@ -230,7 +235,7 @@ const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
         striped
         data={skills}
         columns={columns}
-     
+     data-show-refresh="true"
         cellEdit={ cellEditFactory({ mode: 'click',blurToSave: true,afterSaveCell: onSubmitClicked, }) }
    
       />
