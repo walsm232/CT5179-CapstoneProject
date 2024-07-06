@@ -19,7 +19,7 @@ function StudentProfile() {
     const navigate = useNavigate();
 
     const onSubmitClicked = async (e) => {
-        e.preventDefault();
+        
         try {
             const response = await axios.put('http://localhost:8089/api/v1/users/' + id, {
                 email: email,
@@ -71,8 +71,9 @@ function StudentProfile() {
                             <Form.Control
                                 type="text"
                                 value={data.firstName}
-                               
+                                
                             />
+                         
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formLastName">
                             <Form.Label>Last Name</Form.Label>
@@ -86,15 +87,17 @@ function StudentProfile() {
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={data.username}
+                                defaultValue={data.username}
                                 onChange={e => setUserName(e.target.value)}
+                                
                             />
+                            
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formEmail">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
-                                type="email"
-                                value={data.email}
+                                type="text"
+                                defaultValue={data.email}
                                 onChange={e => setEmail(e.target.value)}
                             />
                         </Form.Group>
@@ -102,9 +105,9 @@ function StudentProfile() {
                             Update
                         </Button></div></Form>
                 
-                <h3>Skills</h3>
+                <h2>Skills</h2>
                     <SkillList />
-                    <h3>Education History</h3>
+                    <h2>Education History</h2>
                     <EducationList />
                     
                 </div>
