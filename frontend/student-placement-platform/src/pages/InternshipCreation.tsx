@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import '../styles/index.css';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/AuthenticatedNavbar';
 
 const CreateInternship = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -25,14 +25,14 @@ const CreateInternship = () => {
                 description: descriptionValue,
                 duration: durationValue,
                 qualifications: qualificationsValue,
-                deadline: deadlineValue
+                applicationDeadline: deadlineValue
             });
 
             if (response.status === 201 || response.status === 200) {
                 setSuccessMessage('Internship created.');
                 setErrorMessage('');
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/dashboard');
                 }, 3000);
             }
         } catch (error) {

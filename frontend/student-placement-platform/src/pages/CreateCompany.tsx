@@ -30,7 +30,7 @@ const CreateCompany = () => {
                 setSuccessMessage('Company created.');
                 setErrorMessage('');
                 setTimeout(() => {
-                    navigate('/login');
+                    navigate('/dashboard');
                 }, 3000);
             }
         } catch (error) {
