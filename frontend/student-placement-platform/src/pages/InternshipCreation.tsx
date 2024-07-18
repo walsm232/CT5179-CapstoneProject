@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,9 +6,27 @@ import '../styles/index.css';
 import NavBar from '../components/AuthenticatedNavbar';
 
 const CreateInternship = () => {
+
+    const [companyOptions, setCompanyOptions] = useState([]);
+
+    useEffect(() => {axios.get('http://localhost:8089/api/v1/companies')
+        .then(response => {
+            console.log(response);
+            setCompanyOptions(response.data.map((item) => {
+                return {
+                    label: item.companyName, value: item.companyId
+                }
+            }));
+           console.log(companyOptions);
+        });
+    }
+    , [])
+    
+
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [jobTitleValue, setJobTitle] = useState('');
+    const [companyValue, setCompanyValue] = useState({companyId: ''});
     const [locationValue, setLocation] = useState('');
     const [descriptionValue, setDescription] = useState('');
     const [durationValue, setDuration] = useState('');
@@ -17,10 +35,12 @@ const CreateInternship = () => {
 
     const navigate = useNavigate();
 
+
     const onInternshipSubmitted = async () => {
         try {
             const response = await axios.post('http://localhost:8089/api/v1/internships', {
                 jobTitle: jobTitleValue,
+                company: companyValue,
                 location: locationValue,
                 description: descriptionValue,
                 duration: durationValue,
@@ -58,6 +78,12 @@ const CreateInternship = () => {
             {successMessage && <div className="alert alert-success">{successMessage}</div>} {/* Success message display */}
             <form className="needs-validation" noValidate>
                 <input type="text" className="form-control mb-3" placeholder="Job Title" value={jobTitleValue} onChange={e => setJobTitle(e.target.value)} required />
+                <select className="form-select mb-3" value={companyValue.companyId} onChange={e => setCompanyValue({companyId: e.target.value})} required>
+                        <option value="" disabled hidden>Company</option>
+                        {companyOptions?.map((company) => (
+                            <option key={company.value} value={company.value}>{company.label}</option>
+                        ))}
+                    </select>
                 <input type="text" className="form-control mb-3" placeholder="Location" value={locationValue} onChange={e => setLocation(e.target.value)} required />
                 <textarea className="form-control mb-3" placeholder="Description" value={descriptionValue} onChange={e => setDescription(e.target.value)} required />
                 <input type="text" className="form-control mb-3" placeholder="Duration" value={durationValue} onChange={e => setDuration(e.target.value)} required />
