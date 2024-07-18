@@ -12,8 +12,11 @@ import EducationList from './pages/EducationList'
 import Account from './pages/Account'
 import StudentList from './pages/StudentList'
 import CreateCompany from './pages/CreateCompany'
+import CreateInternship from './pages/InternshipCreation'
+import DisplayInternships from './pages/DisplayInternships'
 import { ROUTES } from './resources/routes-constants'
 import './styles/main.sass'
+
 
 const RootComponent: React.FC = () => {
     return (
@@ -30,6 +33,8 @@ const RootComponent: React.FC = () => {
                 <Route path="account" element={<Account />} />
                 <Route path="internship/:id" element={<InternshipDetail />} />
                 <Route path="createcompany" element={<CreateCompany />} />
+                <Route path="internshipcreation" element={<CreateInternship />} />
+                <Route path="displayinternships" element={<DisplayInternships />}/>
                 <Route path={ROUTES.HOMEPAGE_ROUTE} element={<Homepage />} />
             </Routes>
         </Router>
