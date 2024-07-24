@@ -50,6 +50,14 @@ const AuthenticatedNavbar: React.FC = () => {
         }
     };
 
+    const handleCompanyCreation = () => {
+        navigate(`/CreateCompany`);
+    };
+
+    const handleInternshipCreation = () => {
+        navigate(`/InternshipCreation`);
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top px-3">
             <a href="/" className="navbar-brand">Placement System</a>
@@ -71,6 +79,12 @@ const AuthenticatedNavbar: React.FC = () => {
                                 <button className="dropdown-item" onClick={handleAccount}>My Account</button>
                                 {role === 'STUDENT' && (
                                     <button className="dropdown-item" onClick={handleProfile}>Career Profile</button>
+                                )}
+                                {role === 'RECRUITER' && (
+                                    <button className="dropdown-item" onClick={handleCompanyCreation}>Create a company page</button>
+                                )}
+                                {role === 'RECRUITER' && (
+                                    <button className="dropdown-item" onClick={handleInternshipCreation}>Create a new internship</button>
                                 )}
                                 <button className="dropdown-item" onClick={handleLogout}>Logout</button>
                             </div>
