@@ -1,15 +1,15 @@
 # Stage 1: Build the React app
-FROM node:14-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
 COPY ../student-placement-platform/package*.json ./
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY student-placement-platform/ ./
 
-RUN npm run build
+RUN npm run build --legacy-peer-deps
 
 
 
@@ -17,6 +17,7 @@ RUN npm run build
 FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
+COPY /delivery/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
