@@ -48,7 +48,7 @@ const CreateCompany = () => {
     };
 
     return (
-    <div className="register-full-screen-container d-flex justify-content-center align-items-center">
+    <div className="account-full-screen-container d-flex justify-content-center align-items-center">
         <NavBar />
         <div className="register-content-box bg-white p-4 shadow rounded col-md-8 col-lg-6">
             <h1 className="mb-3">Create a Company</h1>
