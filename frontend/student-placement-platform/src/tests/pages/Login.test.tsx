@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import Login from '../../pages/Login';
 import { BrowserRouter as Router } from 'react-router-dom'
 import '@testing-library/jest-dom/vitest'
@@ -23,21 +23,22 @@ describe('Login', () => {
     expect(username).toBeInTheDocument();
     })
 
-    it('should test successful login', () => {
+    it('should test successful login form completion', () => {
         render(<Router>
             <Login />
         </Router>);
 
-    const usernameInput = (screen.getByPlaceholderText('Username') as HTMLInputElement);
-    const passwordInput = (screen.getByPlaceholderText('Password') as HTMLInputElement);
+        const usernameInput = (screen.getByPlaceholderText('Username') as HTMLInputElement);
+        const passwordInput = (screen.getByPlaceholderText('Password') as HTMLInputElement);
 
-    const submitButton = screen.getByRole('button', {name: 'Log In'});
-    fireEvent.change(usernameInput, { target: { value: 'kates' } });
-    fireEvent.change(passwordInput, { target: { value: 'abcdef' } });
-    fireEvent.click(submitButton);
+        const submitButton = screen.getByRole('button', {name: 'Log In'});
+        fireEvent.change(usernameInput, { target: { value: 'kates' } });
+        fireEvent.change(passwordInput, { target: { value: 'abcdef' } });
+        fireEvent.click(submitButton);
 
-    expect(usernameInput.value).toBe('kates');
-    expect(passwordInput.value).toBe('abcdef');
-    console.log('success');
+        expect(usernameInput.value).toBe('kates');
+        expect(passwordInput.value).toBe('abcdef');
+        console.log('success');
     })
-})
+
+    })
