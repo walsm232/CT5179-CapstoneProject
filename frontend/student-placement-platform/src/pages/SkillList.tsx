@@ -23,7 +23,7 @@ import { Row } from 'react-bootstrap';
 
   const onDeleteClicked = async (educationid,id) => {
     console.log(educationid,id);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
+        const response = await axios.delete('http://63.34.12.64:8089/api/v1/users/'+id+'/education-history/'+educationid+'');
         console.log(id); 
           
   
@@ -93,7 +93,7 @@ function SkillList(){
 
   const AddClicked = async (row) => {
     setSkillid(row.skillId);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
+        const response = await axios.delete('http://63.34.12.64:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
            
           
   
@@ -105,7 +105,7 @@ function SkillList(){
     console.log(row.skillId);  
         
         try {
-          const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
+          const response = await axios.delete('http://63.34.12.64:8089/api/v1/users/'+id+'/skills/'+row.skillId+'');
           
           
             if (response.status === 201 || response.status === 200) {
@@ -137,7 +137,7 @@ function SkillList(){
 
 
 const onAddSkill = async () => {
-  const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/skills', {
+  const response = await axios.post('http://63.34.12.64:8089/api/v1/users/'+id+'/skills', {
     skillName: skillName,
    
  });
@@ -156,13 +156,13 @@ const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
   try {
     let response;
     if (row.skillId==100101){
-       response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/skills', {
+       response = await axios.post('http://63.34.12.64:8089/api/v1/users/'+id+'/skills', {
          skillName: newvalue,
         
       });
     }
     else{
-       response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/skills/'+row.skillId+'', {
+       response = await axios.put('http://63.34.12.64:8089/api/v1/users/'+id+'/skills/'+row.skillId+'', {
         skillName: newvalue,
        
      });
@@ -205,7 +205,7 @@ const onSubmitClicked = async (oldvalue,newvalue,row, columnn) => {
   useEffect(() => {
     const getSkills = async () => {
       try {
-        const response = await axios.get('http://localhost:8089/api/v1/users/'+id+'/skills');
+        const response = await axios.get('http://63.34.12.64:8089/api/v1/users/'+id+'/skills');
         setSkills(response.data);
        
       } catch (error) {

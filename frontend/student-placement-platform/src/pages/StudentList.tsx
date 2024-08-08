@@ -56,7 +56,7 @@ function StudentList(){
   useEffect(() => {
     const getStudentList = async () => {
       try {
-        const response = await axios.get('http://localhost:8089/api/v1/users');
+        const response = await axios.get('http://63.34.12.64:8089/api/v1/users');
         setStudentList(response.data);
        
       } catch (error) {

@@ -18,7 +18,7 @@ const CreateCompany = () => {
 
     const onCompanySubmitted = async () => {
         try {
-            const response = await axios.post('http://localhost:8089/api/v1/companies', {
+            const response = await axios.post('http://63.34.12.64:8089/api/v1/companies', {
                 companyName: companyNameValue,
                 location: locationValue,
                 industry: industryValue,

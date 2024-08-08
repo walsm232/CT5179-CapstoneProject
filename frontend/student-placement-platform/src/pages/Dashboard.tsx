@@ -18,7 +18,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchInternships = async () => {
             try {
-                const response = await axios.get('http://localhost:8089/api/v1/internships');
+                const response = await axios.get('http://63.34.12.64:8089/api/v1/internships');
                 const data = response.data;
                 setInternships(data);
 

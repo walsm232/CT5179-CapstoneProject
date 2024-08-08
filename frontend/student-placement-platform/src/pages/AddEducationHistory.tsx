@@ -16,7 +16,7 @@ const AddEducationHistory = () => {
 
     const onSubmitClicked = async () => {
         try {
-            const response = await axios.post('http://localhost:8089/api/v1/users/1/education-history', {
+            const response = await axios.post('http://63.34.12.64:8089/api/v1/users/1/education-history', {
                 educationId: educationid,
               
                

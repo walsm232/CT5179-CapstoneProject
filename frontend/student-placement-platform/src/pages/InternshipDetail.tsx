@@ -39,7 +39,7 @@ const InternshipDetail: React.FC = () => {
     useEffect(() => {
         const fetchInternship = async () => {
             try {
-                const response = await axios.get(`http://localhost:8089/api/v1/internships/${id}`);
+                const response = await axios.get(`http://63.34.12.64:8089/api/v1/internships/${id}`);
                 setInternship(response.data);
             } catch (error) {
                 if (axios.isAxiosError(error)) {

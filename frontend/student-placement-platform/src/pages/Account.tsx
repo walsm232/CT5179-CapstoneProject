@@ -20,7 +20,7 @@ function Account() {
 
     const fetchUserData = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:8089/api/v1/users/${userId}`);
+            const response = await axios.get(`http://63.34.12.64:8089/api/v1/users/${userId}`);
             const data = response.data;
             setData(data);
             setUserName(data.username);
@@ -52,7 +52,7 @@ function Account() {
             return;
         }
         try {
-            const response = await axios.put(`http://localhost:8089/api/v1/users/${userId}`, {
+            const response = await axios.put(`http://63.34.12.64:8089/api/v1/users/${userId}`, {
                 email,
                 username,
                 firstName,

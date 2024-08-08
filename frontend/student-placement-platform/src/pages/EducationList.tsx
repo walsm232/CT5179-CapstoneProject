@@ -106,7 +106,7 @@ function EducationHistoryList(){
   const onDeleteClicked = async (row) => {
     setEducationid(row.educationId);
     console.log(row.educationId);
-        const response = await axios.delete('http://localhost:8089/api/v1/users/'+id+'/education-history/'+row.educationid+'');
+        const response = await axios.delete('http://63.34.12.64:8089/api/v1/users/'+id+'/education-history/'+row.educationid+'');
            
           
   
@@ -156,7 +156,7 @@ const onSubmitClicked = async () => {
   
   try {
   
-    const response = await axios.put('http://localhost:8089/api/v1/users/'+id+'/education-history/'+educationid+'', {
+    const response = await axios.put('http://63.34.12.64:8089/api/v1/users/'+id+'/education-history/'+educationid+'', {
          
         
   userId:id, 
@@ -192,7 +192,7 @@ const onSubmitClicked = async () => {
 const onAddClicked = async () => {
   try {
     
-      const response = await axios.post('http://localhost:8089/api/v1/users/'+id+'/education-history', {
+      const response = await axios.post('http://63.34.12.64:8089/api/v1/users/'+id+'/education-history', {
          
         
         userId:id, 
@@ -241,7 +241,7 @@ const onAddClicked = async () => {
   useEffect(() => {
     const getEducationalHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:8089/api/v1/users/'+id+'/education-history');
+        const response = await axios.get('http://63.34.12.64:8089/api/v1/users/'+id+'/education-history');
         setEducationHistory(response.data);
        
       } catch (error) {

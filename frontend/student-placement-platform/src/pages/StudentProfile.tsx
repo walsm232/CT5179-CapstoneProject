@@ -21,7 +21,7 @@ function StudentProfile() {
     const onSubmitClicked = async (e) => {
         
         try {
-            const response = await axios.put('http://localhost:8089/api/v1/users/' + id, {
+            const response = await axios.put('http://63.34.12.64:8089/api/v1/users/' + id, {
                 email: email,
                 username: username
             });
@@ -42,7 +42,7 @@ function StudentProfile() {
     };
 
     useEffect(() => {
-        fetch('http://localhost:8089/api/v1/users/' + id)
+        fetch('http://63.34.12.64:8089/api/v1/users/' + id)
             .then((response) => response.json())
             .then((data) => {
                 setData(data);

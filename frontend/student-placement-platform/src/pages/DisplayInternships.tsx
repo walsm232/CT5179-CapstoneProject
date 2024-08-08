@@ -5,7 +5,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import axios from 'axios';
 
 const DisplayInternships = () => {
-    const url = 'http://localhost:8089/api/v1/internships'
+    const url = 'http://63.34.12.64:8089/api/v1/internships'
   
     const [data, setData] = useState([])
   

@@ -20,7 +20,7 @@ const Register = () => {
 
     const onRegisterClicked = async () => {
         try {
-            const response = await axios.post('http://localhost:8089/api/v1/users/register', {
+            const response = await axios.post('http://63.34.12.64:8089/api/v1/users/register', {
                 username: usernameValue,
                 firstName: firstNameValue,
                 lastName: lastNameValue,

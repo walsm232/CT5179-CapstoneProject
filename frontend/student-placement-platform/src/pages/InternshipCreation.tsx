@@ -9,7 +9,7 @@ const CreateInternship = () => {
 
     const [companyOptions, setCompanyOptions] = useState([]);
 
-    useEffect(() => {axios.get('http://localhost:8089/api/v1/companies')
+    useEffect(() => {axios.get('http://63.34.12.64:8089/api/v1/companies')
         .then(response => {
             console.log(response);
             setCompanyOptions(response.data.map((item) => {
@@ -38,7 +38,7 @@ const CreateInternship = () => {
 
     const onInternshipSubmitted = async () => {
         try {
-            const response = await axios.post('http://localhost:8089/api/v1/internships', {
+            const response = await axios.post('http://63.34.12.64:8089/api/v1/internships', {
                 jobTitle: jobTitleValue,
                 company: companyValue,
                 location: locationValue,
